@@ -1,0 +1,30 @@
+{% from "_macro.html" import head %}
+{% from "_macro.html" import header %}
+{% from "_macro.html" import navigation %}
+{% from "_macro.html" import footer %}
+<!DOCTYPE html>
+<html>
+	{{ head() }}
+<body>
+	<div class="main">
+		{{ header() }}
+		<div class="nav_content">
+			{{ navigation(nav) }}
+			<content>
+                <div class="main">Отправка осуществляется почтовой службой "Новая Почта".<br><br>
+                    Мы работаем только по полной предоплате. Оплата проводится на карту "ПриватБанка", номер которой даст Вам наш менеджер, связаться с которым Вы можете по данным телефонам:<br><br>
+                    Vodafone: +380994372757<br><br>
+                    Также, Вы можете забрать товар самовывозом и расплатиться наличными.<br>
+                    Мы находимся по адресу: г.Харьков, ул. Гвердейцев-широнинцев, д. 23, 1-й этаж.<br><br>
+                    <div class="my-flex-container">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2564.571055295303!2d36.326622416013706!3d50.0006509794158!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x412709f0a9863c03%3A0x7d6271a38749c45a!2z0YPQuy4g0JPQstCw0YDQtNC10LnRhtC10LIt0KjQuNGA0L7QvdC40L3RhtC10LIsIDIzLCDQpdCw0YDRjNC60L7Qsiwg0KXQsNGA0YzQutC-0LLRgdC60LDRjyDQvtCx0LvQsNGB0YLRjCwgNjEwMDA!5e0!3m2!1sru!2sua!4v1565717540448!5m2!1sru!2sua" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>                               
+                    </div>
+                </div>
+            </content>
+		</div>
+		<div id="outbox-shadow">
+			{{ footer() }}
+		</div>
+	</div>
+</body>
+</html>
