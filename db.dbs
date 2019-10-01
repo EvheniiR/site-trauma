@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="my_site_schema" id="Project_5d5a37b" template="Default" database="MySql" >
+	<schema name="my_site_schema" schemaname="my_site_schema" >
+		<table name="category" >
+			<column name="category_id" type="int" jt="4" mandatory="y" />
+			<column name="category_name" type="varchar" length="100" jt="12" />
+			<column name="category_image" type="varchar" length="50" jt="12" />
+			<column name="category_url" type="varchar" length="50" jt="12" />
+			<column name="product_id" type="int" jt="4" mandatory="y" />
+			<index name="pk_category_category_id" unique="PRIMARY_KEY" >
+				<column name="category_id" />
+			</index>
+			<index name="unq_category_product_id" unique="UNIQUE" >
+				<column name="product_id" />
+			</index>
+			<fk name="fk_category_navigation" to_schema="my_site_schema" to_table="navigation" >
+				<fk_column name="category_id" pk="category_id" />
+			</fk>
+		</table>
+		<table name="certificate" >
+			<column name="certificate_id" type="int" jt="4" mandatory="y" />
+			<column name="certificate_name" type="varchar" length="100" jt="12" />
+			<column name="image" type="varchar" length="100" jt="12" />
+			<index name="pk_sertificate_certificate_id" unique="PRIMARY_KEY" >
+				<column name="certificate_id" />
+			</index>
+			<fk name="fk_certificate_navigation" to_schema="my_site_schema" to_table="navigation" >
+				<fk_column name="certificate_id" pk="certificate_id" />
+			</fk>
+		</table>
+		<table name="navigation" >
+			<column name="navigation_id" type="int" jt="4" mandatory="y" />
+			<column name="navigation_name" type="varchar" length="100" jt="12" />
+			<column name="navigation_url" type="varchar" length="100" jt="12" />
+			<column name="category_id" type="int" jt="4" mandatory="y" />
+			<column name="certificate_id" type="int" jt="4" mandatory="y" />
+			<index name="pk_navigation_navigation_id" unique="PRIMARY_KEY" >
+				<column name="navigation_id" />
+			</index>
+			<index name="unq_navigation_category_id" unique="UNIQUE" >
+				<column name="category_id" />
+			</index>
+			<index name="unq_navigation_certificate_id" unique="UNIQUE" >
+				<column name="certificate_id" />
+			</index>
+		</table>
+		<table name="product" >
+			<column name="product_id" type="int" jt="4" mandatory="y" />
+			<column name="product_name" type="varchar" length="30" jt="12" />
+			<column name="image" type="varchar" length="100" jt="12" />
+			<column name="about_product" type="varchar" length="500" jt="12" />
+			<index name="pk_product_product_id" unique="PRIMARY_KEY" >
+				<column name="product_id" />
+			</index>
+			<fk name="fk_product_category" to_schema="my_site_schema" to_table="category" >
+				<fk_column name="product_id" pk="product_id" />
+			</fk>
+		</table>
+	</schema>
+	<layout name="Default Layout" id="Layout_10c8420" show_relation="columns" >
+		<entity schema="my_site_schema" name="product" color="C1D8EE" x="544" y="544" />
+		<entity schema="my_site_schema" name="navigation" color="C1D8EE" x="560" y="192" />
+		<entity schema="my_site_schema" name="category" color="C1D8EE" x="720" y="368" />
+		<entity schema="my_site_schema" name="certificate" color="C1D8EE" x="864" y="256" />
+		<callout x="48" y="48" pointer="Round" >
+			<comment><![CDATA[This project is in offline mode.
+Design the schema and save the design to project file. Later create or upgrade the schema on any database.
+Right-click the layout to add new tables. Drop this callout from its right-click pop-up menu.]]></comment>
+		</callout>
+	</layout>
+</project>
