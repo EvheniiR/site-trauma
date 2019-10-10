@@ -5,6 +5,10 @@ class Product(object):
 		self.link = link
 		self.image = image
 
+	@staticmethod
+	def from_db_row(cell_list):
+		return Product(name=cell_list[0], link=cell_list[1], image=cell_list[2])
+
 class NavItem(object):
 	"""info about items of navigation"""
 	def __init__(self, name, link):
