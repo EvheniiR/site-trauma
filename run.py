@@ -38,7 +38,7 @@ def productlist():
     cursor.close()
    
     items = []
-    for row in items:
+    for row in result:
         items.append(Product.from_db_row(row))
 
     home = NavItem( "Домашняя страница", "/")
@@ -62,8 +62,8 @@ def certificates():
     cursor.close()
        
     items = []
-    for row in items:
-        items.append(Product.from_db_row(row))
+    for row in result:
+        items.append(Certificate.from_db_row(row))
 
     home = NavItem( "Домашняя страница", "/")
     product_list = NavItem( "Список товаров сайта", "/productlist/")
@@ -100,8 +100,14 @@ def aboutus():
 
 @app.route('/proteins/')
 def proteins():
+    cursor = cnx.cursor()
+    cursor.execute("SELECT name, about, image FROM product WHERE  category_id=1")
+    result = cursor.fetchall()
+    cursor.close()
 
     items = []
+    for row in result:
+        items.append(Product.from_db_row(row))
 
     home = NavItem( "Домашняя страница", "/")
     product_list = NavItem( "Список товаров сайта", "/productlist/")
@@ -118,9 +124,15 @@ def proteins():
     return render_template('proteins.html', nav=nav, items=items, text=text)
 
 @app.route('/gainers/')
-def gainers():
-    
+def gainers():   
+    cursor = cnx.cursor()
+    cursor.execute("SELECT name, about, image FROM product WHERE  category_id=2")
+    result = cursor.fetchall()
+    cursor.close()
+
     items = []
+    for row in result:
+        items.append(Product.from_db_row(row))
 
     home = NavItem( "Домашняя страница", "/")
     product_list = NavItem( "Список товаров сайта", "/productlist/")
@@ -140,8 +152,14 @@ def gainers():
 
 @app.route('/aminoacids/')
 def aminoacids():
-   
+    cursor = cnx.cursor()
+    cursor.execute("SELECT name, about, image FROM product WHERE  category_id=3")
+    result = cursor.fetchall()
+    cursor.close()
+
     items = []
+    for row in result:
+        items.append(Product.from_db_row(row))
 
     home = NavItem( "Домашняя страница", "/")
     product_list = NavItem( "Список товаров сайта", "/productlist/")
@@ -161,8 +179,14 @@ def aminoacids():
 
 @app.route('/creatine/')
 def creatine():
-    
+    cursor = cnx.cursor()
+    cursor.execute("SELECT name, about, image FROM product WHERE  category_id=4")
+    result = cursor.fetchall()
+    cursor.close()
+
     items = []
+    for row in result:
+        items.append(Product.from_db_row(row))
 
     home = NavItem( "Домашняя страница", "/")
     product_list = NavItem( "Список товаров сайта", "/productlist/")
@@ -182,8 +206,14 @@ def creatine():
 
 @app.route('/burnfats/')
 def burnfats():
-   
+    cursor = cnx.cursor()
+    cursor.execute("SELECT name, about, image FROM product WHERE  category_id=5")
+    result = cursor.fetchall()
+    cursor.close()
+
     items = []
+    for row in result:
+        items.append(Product.from_db_row(row))
 
     home = NavItem( "Домашняя страница", "/")
     product_list = NavItem( "Список товаров сайта", "/productlist/")
@@ -203,8 +233,14 @@ def burnfats():
 
 @app.route('/vitamins/')
 def vitamins():
-    
+    cursor = cnx.cursor()
+    cursor.execute("SELECT name, about, image FROM product WHERE  category_id=6")
+    result = cursor.fetchall()
+    cursor.close()
+
     items = []
+    for row in result:
+        items.append(Product.from_db_row(row))
 
     home = NavItem( "Домашняя страница", "/")
     product_list = NavItem( "Список товаров сайта", "/productlist/")
@@ -224,8 +260,14 @@ def vitamins():
 
 @app.route('/steroids/')
 def steroids():
-    
+    cursor = cnx.cursor()
+    cursor.execute("SELECT name, about, image FROM product WHERE  category_id=7")
+    result = cursor.fetchall()
+    cursor.close()
+
     items = []
+    for row in result:
+        items.append(Product.from_db_row(row))
 
     home = NavItem( "Домашняя страница", "/")
     product_list = NavItem( "Список товаров сайта", "/productlist/")
