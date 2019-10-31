@@ -129,3 +129,51 @@ footer {
     text-align: left;
     margin: 5px;
 }
+
+.registration h1 {
+    cursor: help;
+    text-align: center;
+}
+
+form {
+    text-align: left;
+    margin: 0 auto;
+    width: 450px;
+    height: 600px;
+    padding: 20px;
+}
+
+.registration_group {
+    margin: 5px;
+    padding: 2px;
+}
+
+label {
+    padding-left: : 10px;
+    text-transform: uppercase;
+}
+
+input {
+    margin-top: 5px;
+    height: 20px;
+    width: 400px;
+    border: none;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.82)   
+}
+
+input:focus {
+    border: 2px solid black;
+}
+
+button {
+    cursor: pointer;
+    padding: 10px 30px;
+    border: none;
+    text-transform: uppercase;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.85);
+}
+
+button:hover {
+    font-weight: bold;
+    transform: scale(1.1);
+}

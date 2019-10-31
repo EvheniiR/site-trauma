@@ -20,6 +20,7 @@ def index():
     home = NavItem( "Домашняя страница", "/")
     product_list = NavItem( "Список товаров сайта", "/productlist/")
     sertification = NavItem( "Сертификаты продукции", "/certificates/")
+    registration = NavItem("Регистрация", "/registration/")
     about_us = NavItem( "О нас", "/aboutus/")
 
     nav = Navigation(0)
@@ -27,6 +28,7 @@ def index():
     nav.push(home)
     nav.push(product_list)
     nav.push(sertification)
+    nav.push(registration)
     nav.push(about_us)
     return render_template('index.html', products=products, nav=nav)
 
@@ -44,6 +46,7 @@ def productlist():
     home = NavItem( "Домашняя страница", "/")
     product_list = NavItem( "Список товаров сайта", "/productlist/")
     sertification = NavItem( "Сертификаты продукции", "/certificates/")
+    registration = NavItem("Регистрация", "/registration/")
     about_us = NavItem( "О нас", "/aboutus/")
 
     nav = Navigation(1)
@@ -51,6 +54,7 @@ def productlist():
     nav.push(home)
     nav.push(product_list)
     nav.push(sertification)
+    nav.push(registration)
     nav.push(about_us)
     return render_template('productlist.html', items=items, nav=nav)
 
@@ -68,6 +72,7 @@ def certificates():
     home = NavItem( "Домашняя страница", "/")
     product_list = NavItem( "Список товаров сайта", "/productlist/")
     sertification = NavItem( "Сертификаты продукции", "/certificates/")
+    registration = NavItem("Регистрация", "/registration/")
     about_us = NavItem( "О нас", "/aboutus/")
 
     nav = Navigation(2)
@@ -75,18 +80,20 @@ def certificates():
     nav.push(home)
     nav.push(product_list)
     nav.push(sertification)
+    nav.push(registration)
     nav.push(about_us)
 
     text = "В подтвержение качества и подлинности нашей продукции для Вас мы разместили сертифкаты и свидетельства о госрегистрации."
 
     return render_template("certificates.html", items=items, nav=nav, text=text)
 
-@app.route('/aboutus/')
-def aboutus():
+@app.route('/registration/')
+def registration():
 
     home = NavItem( "Домашняя страница", "/")
     product_list = NavItem( "Список товаров сайта", "/productlist/")
     sertification = NavItem( "Сертификаты продукции", "/certificates/")
+    registration = NavItem("Регистрация", "/registration/")
     about_us = NavItem( "О нас", "/aboutus/")
 
     nav = Navigation(3)
@@ -94,6 +101,26 @@ def aboutus():
     nav.push(home)
     nav.push(product_list)
     nav.push(sertification)
+    nav.push(registration)
+    nav.push(about_us)
+
+    return render_template("registration.html", nav=nav)
+
+@app.route('/aboutus/')
+def aboutus():
+
+    home = NavItem( "Домашняя страница", "/")
+    product_list = NavItem( "Список товаров сайта", "/productlist/")
+    sertification = NavItem( "Сертификаты продукции", "/certificates/")
+    registration = NavItem("Регистрация", "/registration/")
+    about_us = NavItem( "О нас", "/aboutus/")
+
+    nav = Navigation(4)
+
+    nav.push(home)
+    nav.push(product_list)
+    nav.push(sertification)
+    nav.push(registration)
     nav.push(about_us)
 
     return render_template("aboutus.html", nav=nav)
@@ -112,6 +139,7 @@ def proteins():
     home = NavItem( "Домашняя страница", "/")
     product_list = NavItem( "Список товаров сайта", "/productlist/")
     sertification = NavItem( "Сертификаты продукции", "/certificates/")
+    registration = NavItem("Регистрация", "/registration/")
     about_us = NavItem( "О нас", "/aboutus/")
 
     nav = Navigation("None")
@@ -119,6 +147,7 @@ def proteins():
     nav.push(home)
     nav.push(product_list)
     nav.push(sertification)
+    nav.push(registration)
     nav.push(about_us)
     text = 'У нас вы можете заказать протеины ведущих фирм премиум-качества.'
     return render_template('proteins.html', nav=nav, items=items, text=text)
@@ -137,6 +166,7 @@ def gainers():
     home = NavItem( "Домашняя страница", "/")
     product_list = NavItem( "Список товаров сайта", "/productlist/")
     sertification = NavItem( "Сертификаты продукции", "/certificates/")
+    registration = NavItem("Регистрация", "/registration/")
     about_us = NavItem( "О нас", "/aboutus/")
 
     nav = Navigation("None")
@@ -144,6 +174,7 @@ def gainers():
     nav.push(home)
     nav.push(product_list)
     nav.push(sertification)
+    nav.push(registration)
     nav.push(about_us)
 
     text = 'У нас вы можете заказать гейнеры ведущих фирм премиум-качества.'
@@ -164,6 +195,7 @@ def aminoacids():
     home = NavItem( "Домашняя страница", "/")
     product_list = NavItem( "Список товаров сайта", "/productlist/")
     sertification = NavItem( "Сертификаты продукции", "/certificates/")
+    registration = NavItem("Регистрация", "/registration/")
     about_us = NavItem( "О нас", "/aboutus/")
 
     nav = Navigation("None")
@@ -171,6 +203,7 @@ def aminoacids():
     nav.push(home)
     nav.push(product_list)
     nav.push(sertification)
+    nav.push(registration)
     nav.push(about_us)
 
     text = 'У нас Вы можете заказать как комплексные, так и отдельные аминокислоты ведущих фирм премиум-качества.'
@@ -191,6 +224,7 @@ def creatine():
     home = NavItem( "Домашняя страница", "/")
     product_list = NavItem( "Список товаров сайта", "/productlist/")
     sertification = NavItem( "Сертификаты продукции", "/certificates/")
+    registration = NavItem("Регистрация", "/registration/")
     about_us = NavItem( "О нас", "/aboutus/")
 
     nav = Navigation("None")
@@ -198,6 +232,7 @@ def creatine():
     nav.push(home)
     nav.push(product_list)
     nav.push(sertification)
+    nav.push(registration)
     nav.push(about_us)
 
     text = 'У нас Вы можете креатин ведущих фирм премиум-качества.'
@@ -218,6 +253,7 @@ def burnfats():
     home = NavItem( "Домашняя страница", "/")
     product_list = NavItem( "Список товаров сайта", "/productlist/")
     sertification = NavItem( "Сертификаты продукции", "/certificates/")
+    registration = NavItem("Регистрация", "/registration/")
     about_us = NavItem( "О нас", "/aboutus/")
 
     nav = Navigation("None")
@@ -225,6 +261,7 @@ def burnfats():
     nav.push(home)
     nav.push(product_list)
     nav.push(sertification)
+    nav.push(registration)
     nav.push(about_us)
 
     text = 'У нас Вы можете заказать жиросжигатели ведущих фирм премиум-качества.'
@@ -245,6 +282,7 @@ def vitamins():
     home = NavItem( "Домашняя страница", "/")
     product_list = NavItem( "Список товаров сайта", "/productlist/")
     sertification = NavItem( "Сертификаты продукции", "/certificates/")
+    registration = NavItem("Регистрация", "/registration/")
     about_us = NavItem( "О нас", "/aboutus/")
 
     nav = Navigation("None")
@@ -252,6 +290,7 @@ def vitamins():
     nav.push(home)
     nav.push(product_list)
     nav.push(sertification)
+    nav.push(registration)
     nav.push(about_us)
 
     text = 'У нас Вы можете заказать как комплексные, так и отдельные витамины ведущих фирм премиум-качества.'
@@ -272,6 +311,7 @@ def steroids():
     home = NavItem( "Домашняя страница", "/")
     product_list = NavItem( "Список товаров сайта", "/productlist/")
     sertification = NavItem( "Сертификаты продукции", "/certificates/")
+    registration = NavItem("Регистрация", "/registration/")
     about_us = NavItem( "О нас", "/aboutus/")
 
     nav = Navigation("None")
@@ -279,6 +319,7 @@ def steroids():
     nav.push(home)
     nav.push(product_list)
     nav.push(sertification)
+    nav.push(registration)
     nav.push(about_us)
 
     text = "У нас Вы можете заказать как комплексные, так и отдельные 'витамины' ведущих фирм премиум-качества."

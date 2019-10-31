@@ -52,6 +52,53 @@
     </content> 
 {% endmacro %}
 
+{% macro content_registration() %}
+    <content class="registration">
+                <form action="">
+                    <h1 title="Форма регистрации на сайте">Регистрация</h1>
+                    <div class="registration_group">
+                        <label for="">Login:</label>
+                        <input type="text" maxlength="35">
+                    </div>
+                    <div class="registration_group">
+                        <label for="">Ваше имя:</label>
+                        <input type="text" maxlength="30">
+                    </div>
+                    <div class="registration_group">
+                        <label for="">Фамилия:</label>
+                        <input type="text" maxlength="30">
+                    </div>
+                    <div class="registration_group">
+                        <label for="">Email:</label>
+                        <input type="email" maxlength="30">
+                    </div>
+                    <div class="registration_group">
+                        <label for="">Номер мобильного:</label>
+                        <input type="tel" maxlength="13">
+                    </div>
+                    <div class="registration_group">
+                        <label for="">Дата рождения:</label>
+                        <input type="date">
+                    </div>
+                    <div class="registration_group">
+                        <label for="">Город:</label>
+                        <input type="text" maxlength="30">
+                    </div>
+                    <div class="registration_group">
+                        <label for="">Пароль:</label>
+                        <input type="password" maxlength="50">
+                    </div>
+                    <div class="registration_group">
+                        <label for="">Пароль еще раз:</label>
+                        <input type="password" maxlength="50">
+                    </div>
+                    <div class="registration_group">
+                        <center><button>Зарегистрироваться</button></center>
+                    </div>
+                </form>
+            </content>
+{% endmacro %}
+
 {% macro footer() %}
 	<footer>© Все права защищены<br>ОАО «Trauma»<br> Харьков  2019</footer>
 {% endmacro %}
