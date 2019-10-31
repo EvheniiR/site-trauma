@@ -37,4 +37,4 @@ class Navigation(object):
 
 	def __len__(self):
 		return len(self.nav_items)
-
+	
