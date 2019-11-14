@@ -13,9 +13,11 @@ function validationForm(event) {
 function validationPassword(event) {
 	var value1 = document.getElementById("pass1").value;
 	var value2 = document.getElementById("pass2").value;
-	if (value1 != value2 ) {
-			document.getElementById("hdn_msg").className = "msg_visible"; return false;
-	} else {document.getElementById("hdn_msg").className = "msg_non_visible";}
+	if (value1 != value2 ) {			
+			document.getElementById("hdn_msg").className = "msg_visible";
+			event.preventDefault();
+			} 
+			else {document.getElementById("hdn_msg").className = "msg_non_visible";}
 }
 
 document.getElementById("l1").addEventListener("keyup", validationForm);

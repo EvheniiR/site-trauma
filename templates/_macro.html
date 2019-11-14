@@ -54,7 +54,7 @@
 
 {% macro content_registration() %}
     <content class="registration">
-        <form name="registration_form" action="#">
+        <form name="registration_form" action="/send_form" method="POST">
         <h1 title="Форма регистрации на сайте">Регистрация</h1>
             <div class="registration_group">
                 <label for="l1">Login:</label>
@@ -66,11 +66,11 @@
             </div>
             <div class="registration_group">
                 <label for="surname">Фамилия:</label>
-                <input type="text" maxlength="30" id="surname" name="user_surname">
+                <input type="text" maxlength="50" id="surname" name="user_surname">
             </div>
             <div class="registration_group">
                 <label for="email">Email:</label>
-                <input type="email" maxlength="30" id="email" name="user_email">
+                <input type="email" maxlength="50" id="email" name="user_email">
             </div>
             <div class="registration_group">
                 <label for="number">Номер мобильного:</label>
@@ -97,6 +97,12 @@
                 <center><button id="send" name="send" disabled="true">Зарегистрироваться!</button></center>
             </div>
         </form>
+    </content>
+{% endmacro %}
+
+{% macro content_registration_done(name) %}
+    <content>
+        <h3> Приветствуем Вас, {{ name }}! Ваш аккаунт успешно зарегистрирован!</h3>
     </content>
 {% endmacro %}
 

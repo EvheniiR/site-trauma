@@ -1,6 +1,7 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from classes import*
 import mysql.connector
+from mysql.connector import Error
 
 app = Flask(__name__)
 cnx = mysql.connector.connect(user='root', password='Dianabol250', host='127.0.0.1', database='shop_db')
@@ -105,6 +106,41 @@ def registration():
     nav.push(about_us)
 
     return render_template("registration.html", nav=nav)
+
+@app.route('/send_form', methods=['GET', 'POST'])
+def send_form():
+
+    home = NavItem( "Домашняя страница", "/")
+    product_list = NavItem( "Список товаров сайта", "/productlist/")
+    sertification = NavItem( "Сертификаты продукции", "/certificates/")
+    registration = NavItem("Регистрация", "/registration/")
+    about_us = NavItem( "О нас", "/aboutus/")
+
+    nav = Navigation(3)
+
+    nav.push(home)
+    nav.push(product_list)
+    nav.push(sertification)
+    nav.push(registration)
+    nav.push(about_us)
+    
+    if request.method == 'POST':
+        user_info = (request.form['user_login'], request.form['user_name'], request.form['user_surname'], request.form['user_email'], request.form['user_mobilenumber'], request.form['user_dob'], request.form['user_town'], request.form['user_pass'])
+    
+        try:
+            cursor = cnx.cursor()
+            sql = "INSERT INTO user (login, name, surname, email, mobilenumber, dob, town, password) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s)"
+            cursor.execute(sql, user_info)
+            cnx.commit()
+
+        except mysql.connector.Error as error:
+            print("{}, придумайте что-то более оригинальное!".format(error))
+
+        finally:
+            cursor.close()
+
+    return render_template('registration_done.html', name=request.form['user_name'], nav=nav)
+
 
 @app.route('/aboutus/')
 def aboutus():
