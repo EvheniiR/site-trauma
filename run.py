@@ -6,6 +6,7 @@ from mysql.connector import Error
 app = Flask(__name__)
 cnx = mysql.connector.connect(user='root', password='Dianabol250', host='127.0.0.1', database='shop_db')
 
+cnx.autocommit = False
 
 @app.route('/')
 def index():
@@ -126,15 +127,29 @@ def send_form():
     
     if request.method == 'POST':
         user_info = (request.form['user_login'], request.form['user_name'], request.form['user_surname'], request.form['user_email'], request.form['user_mobilenumber'], request.form['user_dob'], request.form['user_town'], request.form['user_pass'])
-    
+        print(user_info)
         try:
-            cursor = cnx.cursor()
+            cursor = cnx.cursor(buffered=True)
+            data_check = (request.form['user_login'],request.form['user_email'],)
+            query_from_db = "SELECT login, email FROM user WHERE login = %s OR email = %s"        
             sql = "INSERT INTO user (login, name, surname, email, mobilenumber, dob, town, password) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s)"
-            cursor.execute(sql, user_info)
-            cnx.commit()
+            check = cursor.execute(query_from_db, data_check)
+            print(check)
+            if check == None:
+                cursor.execute(sql, user_info)
+                cnx.commit()
+            else:
+                cnx.rollback()
+                error = "Данный логин либо электронная почта уже зарегестрированы на данном сайте!"
 
-        except mysql.connector.Error as error:
-            print("{}, придумайте что-то более оригинальное!".format(error))
+
+
+        except mysql.connector.Error as err:
+            print(err)
+            error = "Данный логин либо электронная почта уже зарегестрированы на данном сайте! Попробуйте еще раз!"
+            cnx.rollback()
+
+            return render_template('registration.html', error=error,nav=nav)
 
         finally:
             cursor.close()

@@ -52,7 +52,7 @@
     </content> 
 {% endmacro %}
 
-{% macro content_registration() %}
+{% macro content_registration(error) %}
     <content class="registration">
         <form name="registration_form" action="/send_form" method="POST">
         <h1 title="Форма регистрации на сайте">Регистрация</h1>
@@ -93,6 +93,7 @@
                 <input type="password" maxlength="50" id="pass2" name="user_pass2">
             </div>
             <div class="msg_non_visible" id="hdn_msg" name="hidden_message">*Введите одинаковые пароли в оба поля!</div>
+            <div class="msg_visible" id="error" name="error">{{error}}</div>
             <div class="registration_group">
                 <center><button id="send" name="send" disabled="true">Зарегистрироваться!</button></center>
             </div>
