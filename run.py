@@ -126,27 +126,35 @@ def send_form():
     nav.push(about_us)
     
     if request.method == 'POST':
-        user_info = (request.form['user_login'], request.form['user_name'], request.form['user_surname'], request.form['user_email'], request.form['user_mobilenumber'], request.form['user_dob'], request.form['user_town'], request.form['user_pass'])
-        print(user_info)
+        user_info = (request.form['user_login'], request.form['user_name'], request.form['user_surname'], request.form['user_email'], request.form['user_mobilenumber'], request.form['user_dob'], request.form['user_town'], request.form['user_pass'],)
         try:
             cursor = cnx.cursor(buffered=True)
-            data_check = (request.form['user_login'],request.form['user_email'],)
-            query_from_db = "SELECT login, email FROM user WHERE login = %s OR email = %s"        
+            query_login = "SELECT 1 FROM user WHERE login = %s"
+            query_email = "SELECT 1 FROM user WHERE email = %s"        
             sql = "INSERT INTO user (login, name, surname, email, mobilenumber, dob, town, password) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s)"
-            check = cursor.execute(query_from_db, data_check)
-            print(check)
-            if check == None:
+            cursor.execute(query_login, (request.form['user_login'],))
+            res1 = cursor.fetchone()
+            cursor.execute(query_email, (request.form['user_email'],))
+            res2 = cursor.fetchone()
+            print(res1, res2)
+            if res1 == None and res2 == None:
                 cursor.execute(sql, user_info)
                 cnx.commit()
-            else:
+            elif res1 != None and res2 != None:
+                error = "Этот логин и e-mail уже заняты!"
                 cnx.rollback()
-                error = "Данный логин либо электронная почта уже зарегестрированы на данном сайте!"
-
-
-
+                return render_template('registration.html', error=error,nav=nav)
+            elif res1 != None:
+                error = "Этот логин уже занят!"
+                cnx.rollback()
+                return render_template('registration.html', error=error,nav=nav)
+            else:
+                error = "Этот e-mail уже занят!"
+                cnx.rollback()
+                return render_template('registration.html', error=error,nav=nav)
+                
         except mysql.connector.Error as err:
-            print(err)
-            error = "Данный логин либо электронная почта уже зарегестрированы на данном сайте! Попробуйте еще раз!"
+            error = "Ошибка при регистрации аккаунта! Попробуйте еще раз!"
             cnx.rollback()
 
             return render_template('registration.html', error=error,nav=nav)
