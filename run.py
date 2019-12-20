@@ -136,7 +136,6 @@ def send_form():
             res1 = cursor.fetchone()
             cursor.execute(query_email, (request.form['user_email'],))
             res2 = cursor.fetchone()
-            print(res1, res2)
             if res1 == None and res2 == None:
                 cursor.execute(sql, user_info)
                 cnx.commit()
@@ -385,8 +384,48 @@ def steroids():
 
     return render_template('steroids.html', nav=nav, items=items, text=text)
 
+@app.route('/login/', methods=["GET", "POST"])
+def login():
 
+    cursor = cnx.cursor()
+    cursor.execute("SELECT name, link, image FROM category")
+    result = cursor.fetchall()
+    cursor.close()
+    products = []
+    for row in result:
+        products.append(Product.from_db_row(row))
 
+    home = NavItem( "Домашняя страница", "/")
+    product_list = NavItem( "Список товаров сайта", "/productlist/")
+    sertification = NavItem( "Сертификаты продукции", "/certificates/")
+    registration = NavItem("Регистрация", "/registration/")
+    about_us = NavItem( "О нас", "/aboutus/")
+
+    nav = Navigation("None")
+
+    nav.push(home)
+    nav.push(product_list)
+    nav.push(sertification)
+    nav.push(registration)
+    nav.push(about_us)
+
+    if request.method == "POST":
+        cursor = cnx.cursor(buffered=True)
+        query_login = "SELECT 1 FROM user WHERE login = %s"
+        query_password = "SELECT 1 FROM user WHERE password = %s"
+        cursor.execute(query_login, (request.form["login_field"],))
+        res1 = cursor.fetchone()
+        cursor.execute(query_password, (request.form["password_field"],))
+        res2 = cursor.fetchone()
+        if res1 == (1,) and res2 == (1,):
+            return render_template("index.html", products=products, nav=nav)
+        else:
+            error = "*Данная комбинация логина/пароля введена с ошибкой либо не существует!"
+            return render_template("login.html", nav=nav, error = error)
+            
+    cursor.close()
+
+    return render_template("login.html", nav=nav)
 
 if __name__ == '__main__':
     app.run(debug=True)

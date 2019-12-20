@@ -7,7 +7,10 @@
 {% endmacro %}
 
 {% macro header() %}
-	<header><a href="/" alt="Домашняя страница"><h2>Добро пожаловать в интернет-магазин спортивного питания и фармакологии "trauma"!!!</h2></a></header>
+	<header>
+        <a class="login_href" href="/login/">Войти</a>
+        <a href="/" alt="Домашняя страница"><h2>Добро пожаловать в интернет-магазин спортивного питания и фармакологии "trauma"!!!</h2></a>       
+    </header>
 {% endmacro %}
 
 {% macro navigation(nav) %}
@@ -105,6 +108,26 @@
     <content>
         <h2> Приветствуем Вас, {{ name }}! Ваш аккаунт успешно зарегистрирован!</h2>
         <a href="/" id="back_to_home">Вернуться к покупкам!</a>
+    </content>
+{% endmacro %}
+
+{% macro content_login(error) %}
+    <content>
+        <h2> Введите Ваш логин и пароль!</h2>
+        <form name="login_form" action="/login/" method="POST">
+            <div class="registration_group">
+                <label for="login">Login:</label>
+                <input type="text" id="login" name="login_field">
+            </div>
+            <div class="registration_group">
+                <label for="pass">Password:</label>
+                <input type="password" id="pass" name="password_field">
+            </div>
+            <div class="registration_group">
+                <div class="msg_visible" id="error" name="error">{{error}}</div>
+                <center><button id="send_form" name="send_form" disabled="true">Отправить</button></center>                
+            </div>           
+        </form>
     </content>
 {% endmacro %}
 

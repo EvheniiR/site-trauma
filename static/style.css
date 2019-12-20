@@ -40,6 +40,10 @@ header a {
     text-decoration: none;
 }
 
+header h2 {
+    margin: 15px;
+}
+
 .nav_content {
     flex: 1;
     display: flex;
@@ -199,4 +203,12 @@ button {
     padding: 5px;
     box-shadow: 2px 2px 5px rgba(0,0,0,0.85);
 
+}
+
+.login_href {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    font-size: 12px;
+    padding: 5px 20px;
 }
