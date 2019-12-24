@@ -1,7 +1,9 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, make_response
 from classes import*
 import mysql.connector
 from mysql.connector import Error
+import random
+import string
 
 app = Flask(__name__)
 cnx = mysql.connector.connect(user='root', password='Dianabol250', host='127.0.0.1', database='shop_db')
@@ -411,18 +413,28 @@ def login():
 
     if request.method == "POST":
         cursor = cnx.cursor(buffered=True)
-        query_login = "SELECT 1 FROM user WHERE login = %s"
-        query_password = "SELECT 1 FROM user WHERE password = %s"
-        cursor.execute(query_login, (request.form["login_field"],))
-        res1 = cursor.fetchone()
-        cursor.execute(query_password, (request.form["password_field"],))
-        res2 = cursor.fetchone()
-        if res1 == (1,) and res2 == (1,):
-            return render_template("index.html", products=products, nav=nav)
+        query_login_password = "SELECT id FROM user WHERE login = %s AND password = %s"
+        cursor.execute(query_login_password, (request.form["login_field"], request.form["password_field"], ))
+        res = cursor.fetchone()
+        if res != None:
+            def random_string(stringLength=30):
+                letters = string.ascii_lowercase 
+                return ''.join(random.choice(letters) for i in range(stringLength))
+            token = random_string()
+            set_token = "UPDATE user SET token = %s WHERE id = %s"
+            cursor.execute(set_token, (token, res[0], ))
+            cnx.commit()
+            def set_cookies():
+                resp = make_response()
+                resp.set_cookie('login', request.form["login_field"])
+                resp.set_cookie('token', token)
+                return resp
+            set_cookies()
+            print(request.cookies)
         else:
             error = "*Данная комбинация логина/пароля введена с ошибкой либо не существует!"
             return render_template("login.html", nav=nav, error = error)
-            
+             
     cursor.close()
 
     return render_template("login.html", nav=nav)
