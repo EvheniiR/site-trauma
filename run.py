@@ -424,12 +424,11 @@ def login():
             set_token = "UPDATE user SET token = %s WHERE id = %s"
             cursor.execute(set_token, (token, res[0], ))
             cnx.commit()
-            def set_cookies():
-                resp = make_response()
-                resp.set_cookie('login', request.form["login_field"])
-                resp.set_cookie('token', token)
-                return resp
-            set_cookies()
+
+            resp = make_response(render_template('index.html', nav=nav))
+            resp.set_cookie('login', '%s' % request.form["login_field"])
+            resp.set_cookie('token', '%s' % token)
+            return resp
             print(request.cookies)
         else:
             error = "*Данная комбинация логина/пароля введена с ошибкой либо не существует!"
