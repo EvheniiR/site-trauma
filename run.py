@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, make_response
+from flask import Flask, render_template, requests, make_response
 from classes import*
 import mysql.connector
 from mysql.connector import Error
