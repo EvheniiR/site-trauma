@@ -1,12 +1,23 @@
-from flask import Flask, render_template, requests, make_response
+from flask import Flask, render_template, request, make_response, redirect
 from classes import*
 import mysql.connector
 from mysql.connector import Error
 import random
 import string
+import os
 
 app = Flask(__name__)
-cnx = mysql.connector.connect(user='root', password='Dianabol250', host='127.0.0.1', database='shop_db')
+
+TRAUMA_DB_LOGIN = os.getenv('TRAUMA_DB_LOGIN')
+TRAUMA_DB_PASSWORD = os.getenv('TRAUMA_DB_PASSWORD')
+if TRAUMA_DB_LOGIN == None:
+    print('Set database login into Environment Variables!')
+    exit(1)
+elif TRAUMA_DB_PASSWORD == None:
+    print('Set database password into Environment Variables!')
+    exit(1)
+else:
+    cnx = mysql.connector.connect(user=TRAUMA_DB_LOGIN, password=TRAUMA_DB_PASSWORD, host='127.0.0.1', database='shop_db')
 
 cnx.autocommit = False
 
@@ -425,14 +436,15 @@ def login():
             cursor.execute(set_token, (token, res[0], ))
             cnx.commit()
 
-            resp = make_response(render_template('index.html', nav=nav))
+            cursor.execute("SELECT token FROM user WHERE id = %s" % res)
+            token_from_db = cursor.fetchone()
+            resp = make_response(redirect('/'))
             resp.set_cookie('login', '%s' % request.form["login_field"])
-            resp.set_cookie('token', '%s' % token)
+            resp.set_cookie('token', '%s' % token_from_db)
             return resp
-            print(request.cookies)
         else:
             error = "*Данная комбинация логина/пароля введена с ошибкой либо не существует!"
-            return render_template("login.html", nav=nav, error = error)
+            return render_template("login.html", nav=nav, error=error)
              
     cursor.close()
 
