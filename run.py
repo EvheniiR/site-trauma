@@ -21,6 +21,19 @@ else:
 
 cnx.autocommit = False
 
+def make_nav_panel(nav):
+    home = NavItem( "Домашняя страница", "/")
+    product_list = NavItem( "Список товаров сайта", "/productlist/")
+    sertification = NavItem( "Сертификаты продукции", "/certificates/")
+    registration = NavItem("Регистрация", "/registration/")
+    about_us = NavItem( "О нас", "/aboutus/")
+
+    nav.push(home)
+    nav.push(product_list)
+    nav.push(sertification)
+    nav.push(registration)
+    nav.push(about_us)
+
 @app.route('/')
 def index():
     cursor = cnx.cursor()
@@ -32,19 +45,9 @@ def index():
     for row in result:
         products.append(Product.from_db_row(row))
 
-    home = NavItem( "Домашняя страница", "/")
-    product_list = NavItem( "Список товаров сайта", "/productlist/")
-    sertification = NavItem( "Сертификаты продукции", "/certificates/")
-    registration = NavItem("Регистрация", "/registration/")
-    about_us = NavItem( "О нас", "/aboutus/")
-
     nav = Navigation(0)
-
-    nav.push(home)
-    nav.push(product_list)
-    nav.push(sertification)
-    nav.push(registration)
-    nav.push(about_us)
+    make_nav_panel(nav)
+   
     return render_template('index.html', products=products, nav=nav)
 
 @app.route('/productlist/')
@@ -58,19 +61,9 @@ def productlist():
     for row in result:
         items.append(Product.from_db_row(row))
 
-    home = NavItem( "Домашняя страница", "/")
-    product_list = NavItem( "Список товаров сайта", "/productlist/")
-    sertification = NavItem( "Сертификаты продукции", "/certificates/")
-    registration = NavItem("Регистрация", "/registration/")
-    about_us = NavItem( "О нас", "/aboutus/")
-
     nav = Navigation(1)
+    make_nav_panel(nav)
 
-    nav.push(home)
-    nav.push(product_list)
-    nav.push(sertification)
-    nav.push(registration)
-    nav.push(about_us)
     return render_template('productlist.html', items=items, nav=nav)
 
 @app.route('/certificates/')
@@ -84,19 +77,8 @@ def certificates():
     for row in result:
         items.append(Certificate.from_db_row(row))
 
-    home = NavItem( "Домашняя страница", "/")
-    product_list = NavItem( "Список товаров сайта", "/productlist/")
-    sertification = NavItem( "Сертификаты продукции", "/certificates/")
-    registration = NavItem("Регистрация", "/registration/")
-    about_us = NavItem( "О нас", "/aboutus/")
-
     nav = Navigation(2)
-
-    nav.push(home)
-    nav.push(product_list)
-    nav.push(sertification)
-    nav.push(registration)
-    nav.push(about_us)
+    make_nav_panel(nav)
 
     text = "В подтвержение качества и подлинности нашей продукции для Вас мы разместили сертифкаты и свидетельства о госрегистрации."
 
@@ -105,38 +87,16 @@ def certificates():
 @app.route('/registration/')
 def registration():
 
-    home = NavItem( "Домашняя страница", "/")
-    product_list = NavItem( "Список товаров сайта", "/productlist/")
-    sertification = NavItem( "Сертификаты продукции", "/certificates/")
-    registration = NavItem("Регистрация", "/registration/")
-    about_us = NavItem( "О нас", "/aboutus/")
-
     nav = Navigation(3)
-
-    nav.push(home)
-    nav.push(product_list)
-    nav.push(sertification)
-    nav.push(registration)
-    nav.push(about_us)
+    make_nav_panel(nav)
 
     return render_template("registration.html", nav=nav)
 
 @app.route('/send_form', methods=['GET', 'POST'])
 def send_form():
 
-    home = NavItem( "Домашняя страница", "/")
-    product_list = NavItem( "Список товаров сайта", "/productlist/")
-    sertification = NavItem( "Сертификаты продукции", "/certificates/")
-    registration = NavItem("Регистрация", "/registration/")
-    about_us = NavItem( "О нас", "/aboutus/")
-
     nav = Navigation(3)
-
-    nav.push(home)
-    nav.push(product_list)
-    nav.push(sertification)
-    nav.push(registration)
-    nav.push(about_us)
+    make_nav_panel(nav)
     
     if request.method == 'POST':
         user_info = (request.form['user_login'], request.form['user_name'], request.form['user_surname'], request.form['user_email'], request.form['user_mobilenumber'], request.form['user_dob'], request.form['user_town'], request.form['user_pass'],)
@@ -180,19 +140,8 @@ def send_form():
 @app.route('/aboutus/')
 def aboutus():
 
-    home = NavItem( "Домашняя страница", "/")
-    product_list = NavItem( "Список товаров сайта", "/productlist/")
-    sertification = NavItem( "Сертификаты продукции", "/certificates/")
-    registration = NavItem("Регистрация", "/registration/")
-    about_us = NavItem( "О нас", "/aboutus/")
-
     nav = Navigation(4)
-
-    nav.push(home)
-    nav.push(product_list)
-    nav.push(sertification)
-    nav.push(registration)
-    nav.push(about_us)
+    make_nav_panel(nav)
 
     return render_template("aboutus.html", nav=nav)
 
@@ -207,19 +156,9 @@ def proteins():
     for row in result:
         items.append(Product.from_db_row(row))
 
-    home = NavItem( "Домашняя страница", "/")
-    product_list = NavItem( "Список товаров сайта", "/productlist/")
-    sertification = NavItem( "Сертификаты продукции", "/certificates/")
-    registration = NavItem("Регистрация", "/registration/")
-    about_us = NavItem( "О нас", "/aboutus/")
-
     nav = Navigation("None")
+    make_nav_panel(nav)
 
-    nav.push(home)
-    nav.push(product_list)
-    nav.push(sertification)
-    nav.push(registration)
-    nav.push(about_us)
     text = 'У нас вы можете заказать протеины ведущих фирм премиум-качества.'
     return render_template('proteins.html', nav=nav, items=items, text=text)
 
@@ -234,19 +173,8 @@ def gainers():
     for row in result:
         items.append(Product.from_db_row(row))
 
-    home = NavItem( "Домашняя страница", "/")
-    product_list = NavItem( "Список товаров сайта", "/productlist/")
-    sertification = NavItem( "Сертификаты продукции", "/certificates/")
-    registration = NavItem("Регистрация", "/registration/")
-    about_us = NavItem( "О нас", "/aboutus/")
-
     nav = Navigation("None")
-    
-    nav.push(home)
-    nav.push(product_list)
-    nav.push(sertification)
-    nav.push(registration)
-    nav.push(about_us)
+    make_nav_panel(nav)
 
     text = 'У нас вы можете заказать гейнеры ведущих фирм премиум-качества.'
 
@@ -263,19 +191,8 @@ def aminoacids():
     for row in result:
         items.append(Product.from_db_row(row))
 
-    home = NavItem( "Домашняя страница", "/")
-    product_list = NavItem( "Список товаров сайта", "/productlist/")
-    sertification = NavItem( "Сертификаты продукции", "/certificates/")
-    registration = NavItem("Регистрация", "/registration/")
-    about_us = NavItem( "О нас", "/aboutus/")
-
     nav = Navigation("None")
-
-    nav.push(home)
-    nav.push(product_list)
-    nav.push(sertification)
-    nav.push(registration)
-    nav.push(about_us)
+    make_nav_panel(nav)
 
     text = 'У нас Вы можете заказать как комплексные, так и отдельные аминокислоты ведущих фирм премиум-качества.'
 
@@ -292,19 +209,8 @@ def creatine():
     for row in result:
         items.append(Product.from_db_row(row))
 
-    home = NavItem( "Домашняя страница", "/")
-    product_list = NavItem( "Список товаров сайта", "/productlist/")
-    sertification = NavItem( "Сертификаты продукции", "/certificates/")
-    registration = NavItem("Регистрация", "/registration/")
-    about_us = NavItem( "О нас", "/aboutus/")
-
     nav = Navigation("None")
-
-    nav.push(home)
-    nav.push(product_list)
-    nav.push(sertification)
-    nav.push(registration)
-    nav.push(about_us)
+    make_nav_panel(nav)
 
     text = 'У нас Вы можете креатин ведущих фирм премиум-качества.'
 
@@ -321,19 +227,8 @@ def burnfats():
     for row in result:
         items.append(Product.from_db_row(row))
 
-    home = NavItem( "Домашняя страница", "/")
-    product_list = NavItem( "Список товаров сайта", "/productlist/")
-    sertification = NavItem( "Сертификаты продукции", "/certificates/")
-    registration = NavItem("Регистрация", "/registration/")
-    about_us = NavItem( "О нас", "/aboutus/")
-
     nav = Navigation("None")
-
-    nav.push(home)
-    nav.push(product_list)
-    nav.push(sertification)
-    nav.push(registration)
-    nav.push(about_us)
+    make_nav_panel(nav)
 
     text = 'У нас Вы можете заказать жиросжигатели ведущих фирм премиум-качества.'
 
@@ -350,19 +245,8 @@ def vitamins():
     for row in result:
         items.append(Product.from_db_row(row))
 
-    home = NavItem( "Домашняя страница", "/")
-    product_list = NavItem( "Список товаров сайта", "/productlist/")
-    sertification = NavItem( "Сертификаты продукции", "/certificates/")
-    registration = NavItem("Регистрация", "/registration/")
-    about_us = NavItem( "О нас", "/aboutus/")
-
     nav = Navigation("None")
-
-    nav.push(home)
-    nav.push(product_list)
-    nav.push(sertification)
-    nav.push(registration)
-    nav.push(about_us)
+    make_nav_panel(nav)
 
     text = 'У нас Вы можете заказать как комплексные, так и отдельные витамины ведущих фирм премиум-качества.'
 
@@ -379,19 +263,8 @@ def steroids():
     for row in result:
         items.append(Product.from_db_row(row))
 
-    home = NavItem( "Домашняя страница", "/")
-    product_list = NavItem( "Список товаров сайта", "/productlist/")
-    sertification = NavItem( "Сертификаты продукции", "/certificates/")
-    registration = NavItem("Регистрация", "/registration/")
-    about_us = NavItem( "О нас", "/aboutus/")
-
     nav = Navigation("None")
-
-    nav.push(home)
-    nav.push(product_list)
-    nav.push(sertification)
-    nav.push(registration)
-    nav.push(about_us)
+    make_nav_panel(nav)
 
     text = "У нас Вы можете заказать как комплексные, так и отдельные 'витамины' ведущих фирм премиум-качества."
 
@@ -408,19 +281,8 @@ def login():
     for row in result:
         products.append(Product.from_db_row(row))
 
-    home = NavItem( "Домашняя страница", "/")
-    product_list = NavItem( "Список товаров сайта", "/productlist/")
-    sertification = NavItem( "Сертификаты продукции", "/certificates/")
-    registration = NavItem("Регистрация", "/registration/")
-    about_us = NavItem( "О нас", "/aboutus/")
-
     nav = Navigation("None")
-
-    nav.push(home)
-    nav.push(product_list)
-    nav.push(sertification)
-    nav.push(registration)
-    nav.push(about_us)
+    make_nav_panel(nav)
 
     if request.method == "POST":
         cursor = cnx.cursor(buffered=True)
