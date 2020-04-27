@@ -1,0 +1,22 @@
+{% from "_macro.html" import head %}
+{% from "_macro.html" import header %}
+{% from "_macro.html" import navigation %}
+{% from "_macro.html" import content_registration %}
+{% from "_macro.html" import footer %}
+<!DOCTYPE html>
+<html>
+	{{ head() }}
+<body>
+	<div class="main">
+		{{ header() }}
+		<div class="nav_content">
+			{{ navigation(nav) }}
+			{{ content_registration(error) }} 
+		</div>
+		<div id="outbox-shadow">
+			{{ footer() }}
+		</div>
+	</div>
+	<script type="text/javascript" src="\static\registration.js"></script>
+</body>
+</html>
