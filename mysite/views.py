@@ -21,6 +21,28 @@ def make_nav_panel(index_bold):
     return nav
 
 
+#  Func, that idintificate User via token from cookies.
+def user_identification():
+    token = request.cookies.get('token')
+    if token != None:
+        cursor = dao.cnx.cursor()
+        cursor.execute("SELECT id,login FROM user WHERE token = %s", (token, )) 
+        result = cursor.fetchone()
+        cursor.close()
+        user = classes.User(result[0][1], result[0][2])
+        return user
+    return None
+
+
+def user_log(user_identification):
+    user = user_identification()
+    if user != None:
+        u_login = user.login 
+    else:
+        u_login = None
+    return u_login
+
+
 @app.route('/')
 def index():
     cursor = dao.cnx.cursor()
@@ -33,8 +55,10 @@ def index():
         products.append(classes.Product.from_db_row(row))
  
     nav = make_nav_panel(0)
+
+    u_login = user_log(user_identification)    
    
-    return render_template('index.html', products=products, nav=nav)
+    return render_template('index.html', products=products, nav=nav, u_login=u_login)
 
 
 @app.route('/productlist/')
@@ -50,7 +74,9 @@ def productlist():
 
     nav = make_nav_panel(1)
 
-    return render_template('productlist.html', items=items, nav=nav)
+    u_login = user_log(user_identification)
+
+    return render_template('productlist.html', items=items, nav=nav, u_login=u_login)
 
 @app.route('/certificates/')
 def certificates():
@@ -65,21 +91,27 @@ def certificates():
 
     nav = make_nav_panel(2)
 
+    u_login = user_log(user_identification)
+
     text = "В подтвержение качества и подлинности нашей продукции для Вас мы разместили сертифкаты и свидетельства о госрегистрации."
 
-    return render_template("certificates.html", items=items, nav=nav, text=text)
+    return render_template("certificates.html", items=items, nav=nav, text=text, u_login=u_login)
 
 @app.route('/registration/')
 def registration():
 
     nav = make_nav_panel(3)
 
-    return render_template("registration.html", nav=nav)
+    u_login = user_log(user_identification)
+
+    return render_template("registration.html", nav=nav, u_login=u_login)
 
 @app.route('/send_form', methods=['GET', 'POST'])
 def send_form():
 
     nav = make_nav_panel(3)
+
+    u_login = user_log(user_identification)
     
     if request.method == 'POST':
         user_info = (request.form['user_login'], request.form['user_name'], request.form['user_surname'], request.form['user_email'], request.form['user_mobilenumber'], request.form['user_dob'], request.form['user_town'], request.form['user_pass'],)
@@ -107,16 +139,15 @@ def send_form():
                 error = "Этот e-mail уже занят!"
                 dao.cnx.rollback()
                 return render_template('registration.html', error=error,nav=nav)               
-        except mysql.connector.Error as err:
+        except:
             error = "Ошибка при регистрации аккаунта! Попробуйте еще раз!"
             dao.cnx.rollback()
 
             return render_template('registration.html', error=error,nav=nav)
 
-        finally:
-            cursor.close()
+        cursor.close()
 
-    return render_template('registration_done.html', name=request.form['user_name'], nav=nav)
+    return render_template('registration_done.html', name=request.form['user_name'], nav=nav, u_login=u_login)
 
 
 @app.route('/aboutus/')
@@ -124,7 +155,9 @@ def aboutus():
 
     nav = make_nav_panel(4)
 
-    return render_template("aboutus.html", nav=nav)
+    u_login = user_log(user_identification)
+
+    return render_template("aboutus.html", nav=nav, u_login=u_login)
 
 @app.route('/proteins/')
 def proteins():
@@ -139,8 +172,11 @@ def proteins():
 
     nav = make_nav_panel("None")
 
+    u_login = user_log(user_identification)
+
     text = 'У нас вы можете заказать протеины ведущих фирм премиум-качества.'
-    return render_template('proteins.html', nav=nav, items=items, text=text)
+
+    return render_template('proteins.html', nav=nav, items=items, text=text, u_login=u_login)
 
 @app.route('/gainers/')
 def gainers():   
@@ -155,9 +191,11 @@ def gainers():
 
     nav = make_nav_panel("None")
 
+    u_login = user_log(user_identification)
+
     text = 'У нас вы можете заказать гейнеры ведущих фирм премиум-качества.'
 
-    return render_template('gainers.html', nav=nav, items=items, text=text)
+    return render_template('gainers.html', nav=nav, items=items, text=text, u_login=u_login)
 
 @app.route('/aminoacids/')
 def aminoacids():
@@ -172,9 +210,11 @@ def aminoacids():
 
     nav = make_nav_panel("None")
 
+    u_login = user_log(user_identification)
+
     text = 'У нас Вы можете заказать как комплексные, так и отдельные аминокислоты ведущих фирм премиум-качества.'
 
-    return render_template('aminoacids.html', nav=nav, items=items, text=text)
+    return render_template('aminoacids.html', nav=nav, items=items, text=text, u_login=u_login)
 
 @app.route('/creatine/')
 def creatine():
@@ -189,9 +229,11 @@ def creatine():
 
     nav = make_nav_panel("None")
 
+    u_login = user_log(user_identification)
+
     text = 'У нас Вы можете креатин ведущих фирм премиум-качества.'
 
-    return render_template('creatine.html', nav=nav, items=items, text=text)
+    return render_template('creatine.html', nav=nav, items=items, text=text, u_login=u_login)
 
 @app.route('/burnfats/')
 def burnfats():
@@ -206,9 +248,11 @@ def burnfats():
 
     nav = make_nav_panel("None")
 
+    u_login = user_log(user_identification)
+
     text = 'У нас Вы можете заказать жиросжигатели ведущих фирм премиум-качества.'
 
-    return render_template('burnfats.html', nav=nav, items=items, text=text)
+    return render_template('burnfats.html', nav=nav, items=items, text=text, u_login=u_login)
 
 @app.route('/vitamins/')
 def vitamins():
@@ -223,9 +267,11 @@ def vitamins():
 
     nav = make_nav_panel("None")
 
+    u_login = user_log(user_identification)
+
     text = 'У нас Вы можете заказать как комплексные, так и отдельные витамины ведущих фирм премиум-качества.'
 
-    return render_template('vitamins.html', nav=nav, items=items, text=text)
+    return render_template('vitamins.html', nav=nav, items=items, text=text, u_login=u_login)
 
 @app.route('/steroids/')
 def steroids():
@@ -240,22 +286,17 @@ def steroids():
 
     nav = make_nav_panel("None")
 
+    u_login = user_log(user_identification)
+
     text = "У нас Вы можете заказать как комплексные, так и отдельные 'витамины' ведущих фирм премиум-качества."
 
-    return render_template('steroids.html', nav=nav, items=items, text=text)
+    return render_template('steroids.html', nav=nav, items=items, text=text, u_login=u_login)
 
 @app.route('/login/', methods=["GET", "POST"])
 def login():
-
-    cursor = dao.cnx.cursor()
-    cursor.execute("SELECT name, link, image FROM category")
-    result = cursor.fetchall()
-    cursor.close()
-    products = []
-    for row in result:
-        products.append(classes.Product.from_db_row(row))
-
     nav = make_nav_panel("None")
+
+    u_login = user_log(user_identification)
 
     if request.method == "POST":
         cursor = dao.cnx.cursor(buffered=True)
@@ -272,12 +313,25 @@ def login():
             dao.cnx.commit()
 
             resp = make_response(redirect('/'))
-            resp.set_cookie('login', '%s' % request.form["login_field"])
             resp.set_cookie('token', '%s' % token)
             return resp
         else:
             error = "*Данная комбинация логина/пароля введена с ошибкой либо не существует!"
             return render_template("login.html", nav=nav, error=error)            
         cursor.close()
+    return render_template("login.html", nav=nav, u_login=u_login)
 
-    return render_template("login.html", nav=nav)
+
+@app.route('/logout/')
+def logout():
+    user = user_identification()
+    cursor = dao.cnx.cursor()
+    cursor.execute('UPDATE user SET token = NULL WHERE login = %s', (user.login, ))
+    dao.cnx.commit()
+    cursor.close()
+
+    resp = make_response(redirect('/'))
+    resp.delete_cookie('token')
+
+    return resp
+

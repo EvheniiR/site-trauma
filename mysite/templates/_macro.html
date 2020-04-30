@@ -6,10 +6,16 @@
 	</head>
 {% endmacro %}
 
-{% macro header() %}
+{% macro header(u_login) %}
 	<header>
-        <a class="login_href" href="/login/">Войти</a>
-        <a href="/" alt="Домашняя страница"><h2>Добро пожаловать в интернет-магазин спортивного питания и фармакологии "trauma"!!!</h2></a>       
+        {% if u_login == None %}
+            <a class="login-href" href="/login/">Войти в личный кабинет</a>              
+        {% else %}
+            <div class="login-href">
+                <a href="#">{{ u_login }}</a>&nbsp&nbsp&nbsp<a href="/logout/">Выйти</a>
+            </div>
+        {% endif %}
+        <a href="/" alt="Домашняя страница"><h2>Добро пожаловать в интернет-магазин спортивного питания и фармакологии "trauma"!!!</h2></a>
     </header>
 {% endmacro %}
 

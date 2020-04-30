@@ -205,10 +205,11 @@ button {
 
 }
 
-.login_href {
+.login-href {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    font-size: 12px;
+    font-size: 14px;
     padding: 5px 20px;
 }
+
