@@ -40,6 +40,10 @@ header a {
     text-decoration: none;
 }
 
+header h2 {
+    margin: 15px;
+}
+
 .nav_content {
     flex: 1;
     display: flex;
@@ -81,6 +85,7 @@ content {
 
 content h2 {
     padding: 8px;
+    margin: 20px;
 }
 
 .my-flex-container {
@@ -129,3 +134,82 @@ footer {
     text-align: left;
     margin: 5px;
 }
+
+.registration h1 {
+    margin:auto;
+    cursor: help;
+    text-align: center;
+}
+
+form {
+    text-align: left;
+    margin: 0 auto;
+    width: 450px;
+    height: 600px;
+    padding: 15px;
+}
+
+.registration_group {
+    margin: 5px;
+    padding: 2px;
+}
+
+label {
+    padding-left: : 10px;
+    text-transform: uppercase;
+}
+
+input {
+    margin-top: 5px;
+    height: 20px;
+    width: 400px;
+    border: none;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.82)   
+}
+
+input:focus {
+    border: 2px solid black;
+}
+
+button {
+    margin-top: 10px;
+    cursor: pointer;
+    padding: 5px 15px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.85);
+}
+
+.msg_visible {
+    color: red;
+    margin: 5px;
+    padding: 2px;
+    font-size: 15px;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.msg_non_visible {
+    display: none;
+    color: red;
+    margin: 5px;
+    padding: 2px;
+    font-size: 15px;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+#back_to_home {
+    background-color: white;
+    color: black;
+    text-decoration: none;
+    margin-top: 30px;
+    padding: 5px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.85);
+
+}
+
+.login-href {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    font-size: 14px;
+    padding: 5px 20px;
+}
+

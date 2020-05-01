@@ -1,0 +1,142 @@
+{% macro head() %}
+	<head>
+	    <title>Онлайн магазин спортивного питания "Trauma"</title>
+	    <link rel="stylesheet" href="/static/style.css">
+        <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+	</head>
+{% endmacro %}
+
+{% macro header(u_login) %}
+	<header>
+        {% if u_login == None %}
+            <a class="login-href" href="/login/">Войти в личный кабинет</a>              
+        {% else %}
+            <div class="login-href">
+                <a href="#">{{ u_login }}</a>&nbsp&nbsp&nbsp<a href="/logout/">Выйти</a>
+            </div>
+        {% endif %}
+        <a href="/" alt="Домашняя страница"><h2>Добро пожаловать в интернет-магазин спортивного питания и фармакологии "trauma"!!!</h2></a>
+    </header>
+{% endmacro %}
+
+{% macro navigation(nav) %}
+	<nav>
+        <ul class="menu">
+            {% for i in range(nav|length) %}                                    
+                <li {% if i == nav.highlight %} style="font-weight: bolder;" {% endif %}><a href="{{nav.nav_items[i].link}}">{{nav.nav_items[i].name}}</a></li>
+            {% endfor %}
+        </ul>
+    </nav>
+{% endmacro %}
+
+{% macro content(products) %}   
+	<content><h3>На нашем сайте вы можете заказать качественное спортивное питание и фармакологию отличного качества.</h3><br>
+        <div class="my-flex-container">
+            {% for item in products  %}
+                <div class="my-flex-block"><a href="{{item.link}}"><img src="{{item.image}}" alt="{{item.name}}"><br>{{item.name}}</a></div>
+            {% endfor %}
+        </div>
+    </content>
+{% endmacro %}
+
+{% macro content_product(text,items) %}
+    <content><h3>{{text}}</h3><br>
+            <div class="my-flex-container">
+                {% for item in items %}
+                    <div class="item">
+                        <img src="{{item.image}}" alt="{{item.name}}"><p>{{item.link}}</p>                            
+                    </div>
+                {% endfor %}
+            </div>
+    </content>
+{% endmacro %}
+
+{% macro content_certificates(text,items) %}
+    <content><h3>{{text}}</h3><br>
+        <div class="my-flex-container">
+            {% for item in items %}
+                <div class="my-block2"><img src="{{item.image}}" alt="{{item.name}}"><br>{{item.name}}</div>           
+            {% endfor %}
+        </div>
+    </content> 
+{% endmacro %}
+
+{% macro content_registration(error) %}
+    <content class="registration">
+        <form name="registration_form" action="/send_form" method="POST">
+        <h1 title="Форма регистрации на сайте">Регистрация</h1>
+            <div class="registration_group">
+                <label for="l1">Login:</label>
+                <input type="text" maxlength="35" id="l1" name="user_login">
+            </div>
+            <div class="registration_group">
+                <label for="name">Ваше имя:</label>
+                <input type="text" maxlength="30" id="name" name="user_name">
+            </div>
+            <div class="registration_group">
+                <label for="surname">Фамилия:</label>
+                <input type="text" maxlength="50" id="surname" name="user_surname">
+            </div>
+            <div class="registration_group">
+                <label for="email">Email:</label>
+                <input type="email" maxlength="50" id="email" name="user_email">
+            </div>
+            <div class="registration_group">
+                <label for="number">Номер мобильного:</label>
+                <input type="tel" maxlength="13" id="number" name="user_mobilenumber">
+            </div>
+            <div class="registration_group">
+                <label for="dob">Дата рождения:</label>
+                <input type="date" id="dob" name="user_dob">
+            </div>
+            <div class="registration_group">
+                <label for="town">Город:</label>
+                <input type="text" maxlength="30" id="town" name="user_town">
+            </div>
+            <div class="registration_group">
+                <label for="pass1">Пароль:</label>
+                <input type="password" maxlength="50" id="pass1" name="user_pass">
+            </div>
+            <div class="registration_group">
+                <label for="pass2">Пароль еще раз:</label>
+                <input type="password" maxlength="50" id="pass2" name="user_pass2">
+            </div>
+            <div class="msg_non_visible" id="hdn_msg" name="hidden_message">*Введите одинаковые пароли в оба поля!</div>
+            <div class="msg_visible" id="error" name="error">{{error}}</div>
+            <div class="registration_group">
+                <center><button id="send" name="send" disabled="true">Зарегистрироваться!</button></center>
+            </div>
+        </form>
+    </content>
+{% endmacro %}
+
+{% macro content_registration_done(name) %}
+    <content>
+        <h2> Приветствуем Вас, {{ name }}! Ваш аккаунт успешно зарегистрирован!</h2>
+        <a href="/" id="back_to_home">Вернуться к покупкам!</a>
+    </content>
+{% endmacro %}
+
+{% macro content_login(error) %}
+    <content>
+        <h2> Введите Ваш логин и пароль!</h2>
+        <form name="login_form" action="/login/" method="POST">
+            <div class="registration_group">
+                <label for="login">Login:</label>
+                <input type="text" id="login" name="login_field">
+            </div>
+            <div class="registration_group">
+                <label for="pass">Password:</label>
+                <input type="password" id="pass" name="password_field">
+            </div>
+            <div class="registration_group">
+                <div class="msg_visible" id="error" name="error">{{error}}</div>
+                <center><button id="send_form" name="send_form" disabled="true">Отправить</button></center>                
+            </div>           
+        </form>
+    </content>
+{% endmacro %}
+
+{% macro footer() %}
+	<footer>© Все права защищены<br>ОАО «Trauma»<br> Харьков  2019</footer>
+{% endmacro %}
