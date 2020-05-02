@@ -9,10 +9,12 @@
 {% macro header(u_login) %}
 	<header>
         {% if u_login == None %}
-            <a class="login-href" href="/login/">Войти в личный кабинет</a>              
+            <a class="login-href" href="/login/">Войти</a>              
         {% else %}
             <div class="login-href">
-                <a href="#">{{ u_login }}</a>&nbsp&nbsp&nbsp<a href="/logout/">Выйти</a>
+                <a href="/backet/">Корзина<!--<img src="/static/imgs/backet.png" alt="backet" style="height: 14px; width: 14px;">--></a>&nbsp&nbsp&nbsp
+                <a href="#">{{ u_login }}</a>&nbsp&nbsp&nbsp
+                <a href="/logout/">Выйти</a>
             </div>
         {% endif %}
         <a href="/" alt="Домашняя страница"><h2>Добро пожаловать в интернет-магазин спортивного питания и фармакологии "trauma"!!!</h2></a>

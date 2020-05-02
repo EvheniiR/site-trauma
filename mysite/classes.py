@@ -39,8 +39,8 @@ class Navigation(object):
 		return len(self.nav_items)
 
 class User(object):
-	def __init__(self, id, login):
-		self.id = id
+	def __init__(self, user_id, login):
+		self.user_id = user_id
 		self.login = login
 
 

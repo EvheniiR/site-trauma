@@ -26,10 +26,10 @@ def user_identification():
     token = request.cookies.get('token')
     if token != None:
         cursor = dao.cnx.cursor()
-        cursor.execute("SELECT id,login FROM user WHERE token = %s", (token, )) 
+        cursor.execute("SELECT id, login FROM user WHERE token = %s", (token, )) 
         result = cursor.fetchone()
         cursor.close()
-        user = classes.User(result[0][1], result[0][2])
+        user = classes.User(result[0], result[1])
         return user
     return None
 
@@ -326,7 +326,7 @@ def login():
 def logout():
     user = user_identification()
     cursor = dao.cnx.cursor()
-    cursor.execute('UPDATE user SET token = NULL WHERE login = %s', (user.login, ))
+    cursor.execute('UPDATE user SET token = NULL WHERE id = %s', (user.user_id, ))
     dao.cnx.commit()
     cursor.close()
 
