@@ -10,13 +10,11 @@ def make_nav_panel(index_bold):
     home = classes.NavItem( "Домашняя страница", "/")
     product_list = classes.NavItem( "Список товаров сайта", "/productlist/")
     sertification = classes.NavItem( "Сертификаты продукции", "/certificates/")
-    registration = classes.NavItem("Регистрация", "/registration/")
     about_us = classes.NavItem( "О нас", "/aboutus/")
 
     nav.push(home)
     nav.push(product_list)
     nav.push(sertification)
-    nav.push(registration)
     nav.push(about_us)
     return nav
 
@@ -313,7 +311,7 @@ def login():
             dao.cnx.commit()
 
             resp = make_response(redirect('/'))
-            resp.set_cookie('token', '%s' % token)
+            resp.set_cookie('token', '%s' % token, max_age=43200) 
             return resp
         else:
             error = "*Данная комбинация логина/пароля введена с ошибкой либо не существует!"

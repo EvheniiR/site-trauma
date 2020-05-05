@@ -1,22 +1,22 @@
-{% from "_macro.html" import head %}
-{% from "_macro.html" import header %}
-{% from "_macro.html" import navigation %}
-{% from "_macro.html" import content_login %}
-{% from "_macro.html" import footer %}
-<!DOCTYPE html>
-<html>
-	{{ head() }}
-<body>
-	<div class="main">
-		{{ header(u_login) }}
-		<div class="nav_content">
-			{{ navigation(nav) }}
-			{{ content_login(error) }}
-		</div>
-		<div id="outbox-shadow">
-			{{ footer() }}
-		</div>
-	</div>
-	<script type="text/javascript" src="/static/logging_in.js"></script>
-</body>
-</html>
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <content>
+        <h2> Введите Ваш логин и пароль!</h2>
+        <form name="login_form" action="/login/" method="POST">
+            <div class="registration_group">
+                <label for="login">Login:</label>
+                <input type="text" id="login" name="login_field">
+            </div>
+            <div class="registration_group">
+                <label for="pass">Password:</label>
+                <input type="password" id="pass" name="password_field">
+            </div>
+            <div class="registration_group">
+                <div class="msg_visible" id="error" name="error">{{error}}</div>
+                <center><button id="send_form" name="send_form" disabled="true">Отправить</button></center>                
+            </div>           
+        </form>
+    </content>
+{% endblock %}

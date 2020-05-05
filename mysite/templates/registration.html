@@ -1,22 +1,51 @@
-{% from "_macro.html" import head %}
-{% from "_macro.html" import header %}
-{% from "_macro.html" import navigation %}
-{% from "_macro.html" import content_registration %}
-{% from "_macro.html" import footer %}
-<!DOCTYPE html>
-<html>
-	{{ head() }}
-<body>
-	<div class="main">
-		{{ header(u_login) }}
-		<div class="nav_content">
-			{{ navigation(nav) }}
-			{{ content_registration(error) }} 
-		</div>
-		<div id="outbox-shadow">
-			{{ footer() }}
-		</div>
-	</div>
-	<script type="text/javascript" src="\static\registration.js"></script>
-</body>
-</html>
+{% extends 'base.html' %}
+
+
+{% block content %}
+	<content class="registration">
+        <form name="registration_form" action="/send_form" method="POST">
+        <h1 title="Форма регистрации на сайте">Регистрация</h1>
+            <div class="registration_group">
+                <label for="l1">Login:</label>
+                <input type="text" maxlength="35" id="l1" name="user_login">
+            </div>
+            <div class="registration_group">
+                <label for="name">Ваше имя:</label>
+                <input type="text" maxlength="30" id="name" name="user_name">
+            </div>
+            <div class="registration_group">
+                <label for="surname">Фамилия:</label>
+                <input type="text" maxlength="50" id="surname" name="user_surname">
+            </div>
+            <div class="registration_group">
+                <label for="email">Email:</label>
+                <input type="email" maxlength="50" id="email" name="user_email">
+            </div>
+            <div class="registration_group">
+                <label for="number">Номер мобильного:</label>
+                <input type="tel" maxlength="13" id="number" name="user_mobilenumber">
+            </div>
+            <div class="registration_group">
+                <label for="dob">Дата рождения:</label>
+                <input type="date" id="dob" name="user_dob">
+            </div>
+            <div class="registration_group">
+                <label for="town">Город:</label>
+                <input type="text" maxlength="30" id="town" name="user_town">
+            </div>
+            <div class="registration_group">
+                <label for="pass1">Пароль:</label>
+                <input type="password" maxlength="50" id="pass1" name="user_pass">
+            </div>
+            <div class="registration_group">
+                <label for="pass2">Пароль еще раз:</label>
+                <input type="password" maxlength="50" id="pass2" name="user_pass2">
+            </div>
+            <div class="msg_non_visible" id="hdn_msg" name="hidden_message">*Введите одинаковые пароли в оба поля!</div>
+            <div class="msg_visible" id="error" name="error">{{error}}</div>
+            <div class="registration_group">
+                <center><button id="send" name="send" disabled="true">Зарегистрироваться!</button></center>
+            </div>
+        </form>
+    </content>
+{% endblock %}

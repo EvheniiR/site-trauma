@@ -1,21 +1,13 @@
-{% from "_macro.html" import head %}
-{% from "_macro.html" import header %}
-{% from "_macro.html" import navigation %}
-{% from "_macro.html" import content %}
-{% from "_macro.html" import footer %}
-<!DOCTYPE html>
-<html>
-    {{ head() }}
-<body>
-    <div class="main">   
-        {{ header(u_login) }}
-        <div class="nav_content">
-            {{ navigation(nav) }}         
-            {{ content(products) }}
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <content><h3>На нашем сайте вы можете заказать качественное спортивное питание и фармакологию отличного качества.</h3><br>
+        <div class="my-flex-container">
+            {% for item in products  %}
+                <div class="my-flex-block"><a href="{{item.link}}"><img src="{{item.image}}" alt="{{item.name}}"><br>{{item.name}}</a></div>
+            {% endfor %}
         </div>
-        <div id="outbox-shadow">         
-            {{ footer() }}
-        </div>
-    </div>
-</body>
-</html>
+    </content>
+{% endblock %}
+
