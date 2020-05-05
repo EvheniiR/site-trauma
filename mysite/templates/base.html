@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Онлайн магазин спортивного питания "Trauma"</title>
+        <link rel="stylesheet" href="/static/style.css">
+        <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+        <div class="main">
+            <header>
+                {% if u_login == None %}
+                    <div class="login-href">
+                        <a href= {{ url_for('registration') }}>Зарегистрироваться</a>&nbsp&nbsp&nbsp
+                        <a href= {{ url_for('login') }}>Войти</a>
+                    </div>              
+                {% else %}
+                    <div class="login-href">
+                        <a href="/backet/">Корзина<!--<img src="/static/imgs/backet.png" alt="backet" style="height: 14px; width: 14px;">--></a>&nbsp&nbsp&nbsp
+                        <a href="#">{{ u_login }}</a>&nbsp&nbsp&nbsp
+                        <a href="/logout/">Выйти</a>
+                    </div>
+                {% endif %}
+                <a href="/" alt="Домашняя страница"><h2>Добро пожаловать в интернет-магазин спортивного питания и фармакологии "trauma"!!!</h2></a>
+            </header>
+            <div class="nav_content">
+                <nav>
+                    <ul class="menu">
+                        {% for i in range(nav|length) %}                                    
+                            <li {% if i == nav.highlight %} style="font-weight: bolder;" {% endif %}><a href="{{nav.nav_items[i].link}}">{{nav.nav_items[i].name}}</a></li>
+                        {% endfor %}
+                        <!--
+                        {% if u_login %}
+                            <a href="/backet/">Корзина</a>
+                        {% endif %}
+                        -->
+                    </ul>
+                </nav>
+
+                {% block content %}
+
+                {% endblock %}
+
+            </div>
+            <div id="outbox-shadow">
+                <footer>
+                    <span>© Все права защищены<br>ОАО «Trauma»<br> Харьков  2019</span>
+                </footer>
+            </div>
+        </div>
+        <script type="text/javascript" src="/static/logging_in.js"></script>
+        <script type="text/javascript" src="/static/registration.js"></script>
+    </body>
+</html>
