@@ -8,7 +8,7 @@
     <body>
         <div class="main">
             <header>
-                {% if u_login == None %}
+                {% if u_login == None or error %}
                     <div class="login-href">
                         <a href= {{ url_for('registration') }}>Зарегистрироваться</a>&nbsp&nbsp&nbsp
                         <a href= {{ url_for('login') }}>Войти</a>
@@ -37,7 +37,6 @@
                 </nav>
 
                 {% block content %}
-
                 {% endblock %}
 
             </div>
@@ -47,7 +46,7 @@
                 </footer>
             </div>
         </div>
-        <script type="text/javascript" src="/static/logging_in.js"></script>
-        <script type="text/javascript" src="/static/registration.js"></script>
+        {% block scripts %}
+        {% endblock %}
     </body>
 </html>
