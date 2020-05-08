@@ -1,12 +1,25 @@
 import argon2
+import random, string
 
-def verify_password(password):
-	argon2Hasher = argon2.PasswordHasher(
-	    time_cost=16, memory_cost=2**15, parallelism=2, hash_len=32, salt_len=16)
-	hash = argon2Hasher.hash(password)
 
-	verifyValid = argon2Hasher.verify(hash, 'password')
+ph = argon2.PasswordHasher(
+    time_cost=16, memory_cost=2**15, parallelism=2, hash_len=32, salt_len=16)
 
-	return verifyValid
+# Creating hash from input user's password.
+def do_password_hash(password):
+    hash = ph.hash(str(password))
+    return hash
 
-print(verify_password('password'))
+# Verification user's password and password hash from database.
+def password_verify(hash_from_db, user_password):
+    try:
+        verify_valid = ph.verify(hash_from_db, str(user_password))
+        return verify_valid
+    except:
+        return False
+
+
+# Func, that creating user's token.
+def random_string(stringLength=30):
+    letters = string.ascii_lowercase 
+    return ''.join(random.choice(letters) for i in range(stringLength))

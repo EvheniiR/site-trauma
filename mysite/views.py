@@ -1,6 +1,7 @@
 from flask import render_template, request, make_response, redirect
 from mysite import classes, dao, app
 from mysql.connector import Error
+from mysite import util
 import random
 import string
 
@@ -112,19 +113,27 @@ def send_form():
     u_login = user_log(user_identification)
     
     if request.method == 'POST':
-        user_info = (request.form['user_login'], request.form['user_name'], request.form['user_surname'], request.form['user_email'], request.form['user_mobilenumber'], request.form['user_dob'], request.form['user_town'], request.form['user_pass'],)
         try:
             cursor = dao.cnx.cursor(buffered=True)
             query_login = "SELECT 1 FROM user WHERE login = %s"
             query_email = "SELECT 1 FROM user WHERE email = %s"        
-            sql = "INSERT INTO user (login, name, surname, email, mobilenumber, dob, town, password) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s)"
+            sql = "INSERT INTO user (login, name, surname, email, mobilenumber, dob, town, password, token) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s)"
             cursor.execute(query_login, (request.form['user_login'],))
             res1 = cursor.fetchone()
             cursor.execute(query_email, (request.form['user_email'],))
             res2 = cursor.fetchone()
             if res1 == None and res2 == None:
-                cursor.execute(sql, user_info)
+                user_pass_hash = util.do_password_hash(request.form['user_pass'])
+                token = util.random_string()
+                user_info = (
+                request.form['user_login'], request.form['user_name'], request.form['user_surname'], 
+                request.form['user_email'], request.form['user_mobilenumber'], request.form['user_dob'], 
+                request.form['user_town'], user_pass_hash, token, 
+                )
+                cursor.execute(sql, user_info)                
                 dao.cnx.commit()
+                resp = make_response(redirect('/'))
+                resp.set_cookie('token', '%s' % token, max_age=43200)
             elif res1 != None and res2 != None:
                 error = "Этот логин и e-mail уже заняты!"
                 dao.cnx.rollback()
@@ -140,12 +149,9 @@ def send_form():
         except:
             error = "Ошибка при регистрации аккаунта! Попробуйте еще раз!"
             dao.cnx.rollback()
-
             return render_template('registration.html', error=error,nav=nav)
-
         cursor.close()
-
-    return render_template('registration_done.html', name=request.form['user_name'], nav=nav, u_login=u_login)
+    return resp
 
 
 @app.route('/aboutus/')
@@ -298,25 +304,23 @@ def login():
 
     if request.method == "POST":
         cursor = dao.cnx.cursor(buffered=True)
-        query_login_password = "SELECT id FROM user WHERE login = %s AND password = %s"
-        cursor.execute(query_login_password, (request.form["login_field"], request.form["password_field"], ))
+        query_login_password = "SELECT password FROM user WHERE login = %s"
+        cursor.execute(query_login_password, (request.form["login_field"], ))
         res = cursor.fetchone()
         if res != None:
-            def random_string(stringLength=30):
-                letters = string.ascii_lowercase 
-                return ''.join(random.choice(letters) for i in range(stringLength))
-            token = random_string()
-            set_token = "UPDATE user SET token = %s WHERE id = %s"
-            cursor.execute(set_token, (token, res[0], ))
-            dao.cnx.commit()
-
-            resp = make_response(redirect('/'))
-            resp.set_cookie('token', '%s' % token, max_age=43200) 
-            return resp
+            verify_valid = util.password_verify(res[0], request.form["password_field"])
+            if verify_valid == True:
+                token = util.random_string()
+                set_token = "UPDATE user SET token = %s WHERE login = %s"
+                cursor.execute(set_token, (token, request.form["login_field"], ))
+                dao.cnx.commit()
+                cursor.close()
+                resp = make_response(redirect('/'))
+                resp.set_cookie('token', '%s' % token, max_age=43200) 
+                return resp
         else:
             error = "*Данная комбинация логина/пароля введена с ошибкой либо не существует!"
             return render_template("login.html", nav=nav, error=error)            
-        cursor.close()
     return render_template("login.html", nav=nav, u_login=u_login)
 
 
