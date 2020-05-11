@@ -1,13 +1,28 @@
 class Product(object):
 	"""info about name of pruduct, link and image"""
-	def __init__(self, name, link, image):
+	def __init__(self, product_id, name, link, image):
 		self.name = name
 		self.link = link
 		self.image = image
+		self.product_id = product_id
 
 	@staticmethod
 	def from_db_row(cell_list):
-		return Product(name=cell_list[0], link=cell_list[1], image=cell_list[2])
+		return Product(product_id=cell_list[0], name=cell_list[1], link=cell_list[2], image=cell_list[3])
+
+
+class Category(object):
+	"""info about name of category, id, link and image"""
+	def __init__(self, category_id, name, link, image):
+		self.name = name
+		self.link = link
+		self.image = image
+		self.category_id = category_id
+
+	@staticmethod
+	def from_db_row(cell_list):
+		return Category(category_id=cell_list[0], name=cell_list[1], link=cell_list[2], image=cell_list[3])
+
 
 class Certificate(object):
 	"""docstring for Certificate"""
@@ -42,6 +57,13 @@ class User(object):
 	def __init__(self, user_id, login):
 		self.user_id = user_id
 		self.login = login
+		self.shopping_cart = []
+
+	def push(self, elem):
+		self.shopping_cart.append(elem)
+
+	def __len__(self):
+		return len(self.shopping_cart)
 
 
 	

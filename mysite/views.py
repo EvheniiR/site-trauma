@@ -1,4 +1,4 @@
-from flask import render_template, request, make_response, redirect
+from flask import render_template, request, make_response, redirect, jsonify
 from mysite import classes, dao, app
 from mysql.connector import Error
 from mysite import util
@@ -45,19 +45,19 @@ def user_log(user_identification):
 @app.route('/')
 def index():
     cursor = dao.cnx.cursor()
-    cursor.execute("SELECT name, link, image FROM category")
+    cursor.execute("SELECT id, name, link, image FROM category")
     result = cursor.fetchall()
     cursor.close()
  
-    products = []
+    categories = []
     for row in result:
-        products.append(classes.Product.from_db_row(row))
+        categories.append(classes.Category.from_db_row(row))
  
     nav = make_nav_panel(0)
 
     u_login = user_log(user_identification)    
    
-    return render_template('index.html', products=products, nav=nav, u_login=u_login)
+    return render_template('index.html', categories=categories, nav=nav, u_login=u_login)
 
 
 @app.route('/productlist/')
@@ -76,6 +76,7 @@ def productlist():
     u_login = user_log(user_identification)
 
     return render_template('productlist.html', items=items, nav=nav, u_login=u_login)
+
 
 @app.route('/certificates/')
 def certificates():
@@ -166,7 +167,7 @@ def aboutus():
 @app.route('/proteins/')
 def proteins():
     cursor = dao.cnx.cursor()
-    cursor.execute("SELECT name, about, image FROM product WHERE  category_id=1")
+    cursor.execute("SELECT id, name, about, image FROM product WHERE  category_id=1")
     result = cursor.fetchall()
     cursor.close()
 
@@ -336,5 +337,17 @@ def logout():
     resp.delete_cookie('token')
 
     return resp
+
+
+@app.route('/add_to_cart', methods = ['GET', 'POST'])
+def add_to_cart():
+    user = user_identification()
+    user_data = request.get_json()
+    product_id = user_data['product_id']
+    count = user_data['count']
+    user.push(int(count))
+
+    return jsonify(user.__len__())
+
 
 

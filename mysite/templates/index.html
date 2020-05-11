@@ -4,8 +4,8 @@
 {% block content %}
     <content><h3>На нашем сайте вы можете заказать качественное спортивное питание и фармакологию отличного качества.</h3><br>
         <div class="my-flex-container">
-            {% for item in products  %}
-                <div class="my-flex-block"><a href="{{item.link}}"><img src="{{item.image}}" alt="{{item.name}}"><br>{{item.name}}</a></div>
+            {% for elem in categories  %}
+                <div class="my-flex-block"><a href="{{ elem.link }}"><img src="{{ elem.image }}" alt="{{ elem.name }}"><br>{{ elem.name }}</a></div>
             {% endfor %}
         </div>
     </content>

@@ -8,7 +8,7 @@ html, body {
 body {
     background-color: #5F9EA0;
     color: #ffffff;
-    text-shadow: 3px 4px 5px #000;
+    text-shadow: 1px 2px 3px #000;
     font-family: "garamond";
 }
 
@@ -119,8 +119,10 @@ footer {
 }
 
 .item {
-    margin: 0;
-    padding: 10px;
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid black;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.85);
 }
 
 .item img {
@@ -128,6 +130,7 @@ footer {
     float: left;
     width: 100px;
     height: 100px;
+    border: 1px solid black;
 }
 
 .item p {
@@ -141,7 +144,7 @@ footer {
     text-align: center;
 }
 
-form {
+.registration form {
     text-align: left;
     margin: 0 auto;
     width: 450px;
@@ -188,11 +191,6 @@ button {
 
 .msg_non_visible {
     display: none;
-    color: red;
-    margin: 5px;
-    padding: 2px;
-    font-size: 15px;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 #back_to_home {
@@ -212,4 +210,46 @@ button {
     font-size: 14px;
     padding: 5px 20px;
     text-transform: none;
+}
+
+.price-action {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    color: black;
+    margin: 5px;
+}
+
+.btn-buy {
+    width:  58px;
+    margin: 0;
+    border-radius: 4px;
+    border: 1px solid black;
+    cursor: pointer;    
+}
+
+#toTop {
+    width:35px;
+    height: 35px;
+    border: 1.5px solid black;
+    border-radius: 50%;
+    background: white;
+    text-align: center;
+    padding: 5px;
+    position: fixed;
+    bottom: 10px; /* отступ кнопки от нижнего края страницы*/
+    right: 250px;
+    cursor: pointer;
+    display: none;
+    color: black;
+    font-weight: bold;
+    font-family: garamond;
+    font-size: 16px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.85);
+}
+
+#cell_form {
+    width: 440px;
+    height: 20px;
+
 }

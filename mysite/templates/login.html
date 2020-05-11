@@ -2,7 +2,7 @@
 
 
 {% block content %}
-    <content>
+    <content class="registration">
         <h2> Введите Ваш логин и пароль!</h2>
         <form name="login_form" action="/login/" method="POST">
             <div class="registration_group">
@@ -15,7 +15,7 @@
             </div>
             <div class="registration_group">
                 <div class="msg_visible" id="error" name="error">{{error}}</div>
-                <center><button id="send_form" name="send_form" disabled="true">Отправить</button></center>                
+                <center><button id="send_form" name="send_form" disabled="true">Войти</button></center>                
             </div>           
         </form>
     </content>
