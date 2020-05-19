@@ -1,10 +1,10 @@
 class Product(object):
 	"""info about name of pruduct, link and image"""
 	def __init__(self, product_id, name, link, image):
+		self.product_id = product_id
 		self.name = name
 		self.link = link
 		self.image = image
-		self.product_id = product_id
 
 	@staticmethod
 	def from_db_row(cell_list):
@@ -14,10 +14,10 @@ class Product(object):
 class Category(object):
 	"""info about name of category, id, link and image"""
 	def __init__(self, category_id, name, link, image):
+		self.category_id = category_id
 		self.name = name
 		self.link = link
 		self.image = image
-		self.category_id = category_id
 
 	@staticmethod
 	def from_db_row(cell_list):
@@ -40,6 +40,7 @@ class NavItem(object):
 	def __init__(self, name, link):
 		self.name = name
 		self.link = link
+
 		
 class Navigation(object):
 	"""docstring for Navigatin"""
@@ -52,6 +53,7 @@ class Navigation(object):
 
 	def __len__(self):
 		return len(self.nav_items)
+
 
 class User(object):
 	def __init__(self, user_id, login):

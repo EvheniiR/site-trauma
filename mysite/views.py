@@ -26,20 +26,18 @@ def user_identification():
     if token != None:
         cursor = dao.cnx.cursor()
         cursor.execute("SELECT id, login FROM user WHERE token = %s", (token, )) 
-        result = cursor.fetchone()
+        res = cursor.fetchone()
+        user = classes.User(res[0], res[1])
+
+        query = 'SELECT product_id FROM shopping_cart WHERE user_id = %s'
+        cursor.execute(query, (user.user_id, ))
+        result = cursor.fetchall()
+        if result != None:
+            for i in range(len(result)):
+                user.push(result[i][0])
         cursor.close()
-        user = classes.User(result[0], result[1])
         return user
-    return None
-
-
-def user_log(user_identification):
-    user = user_identification()
-    if user != None:
-        u_login = user.login 
-    else:
-        u_login = None
-    return u_login
+    return 'User undefined!'
 
 
 @app.route('/')
@@ -54,16 +52,16 @@ def index():
         categories.append(classes.Category.from_db_row(row))
  
     nav = make_nav_panel(0)
-
-    u_login = user_log(user_identification)    
+    user = user_identification()
+    #u_login = user_log(user_identification)    
    
-    return render_template('index.html', categories=categories, nav=nav, u_login=u_login)
+    return render_template('index.html', categories=categories, nav=nav, user=user)
 
 
 @app.route('/productlist/')
 def productlist():
     cursor = dao.cnx.cursor()
-    cursor.execute("SELECT name, about, image FROM product")
+    cursor.execute("SELECT id, name, about, image FROM product")
     result = cursor.fetchall()
     cursor.close()
    
@@ -73,9 +71,11 @@ def productlist():
 
     nav = make_nav_panel(1)
 
-    u_login = user_log(user_identification)
+    user = user_identification()
 
-    return render_template('productlist.html', items=items, nav=nav, u_login=u_login)
+    text = 'На данной странице вы можете ознакомиться со всеми представленными на сайте товарами.'
+
+    return render_template('productlist.html', items=items, nav=nav, user=user, text=text)
 
 
 @app.route('/certificates/')
@@ -91,28 +91,25 @@ def certificates():
 
     nav = make_nav_panel(2)
 
-    u_login = user_log(user_identification)
+    user = user_identification()
 
     text = "В подтвержение качества и подлинности нашей продукции для Вас мы разместили сертифкаты и свидетельства о госрегистрации."
 
-    return render_template("certificates.html", items=items, nav=nav, text=text, u_login=u_login)
+    return render_template("certificates.html", items=items, nav=nav, text=text, user=user)
+
 
 @app.route('/registration/')
 def registration():
 
     nav = make_nav_panel(3)
 
-    u_login = user_log(user_identification)
+    user = user_identification()
 
-    return render_template("registration.html", nav=nav, u_login=u_login)
+    return render_template("registration.html", nav=nav, user=user)
+
 
 @app.route('/send_form', methods=['GET', 'POST'])
-def send_form():
-
-    nav = make_nav_panel(3)
-
-    u_login = user_log(user_identification)
-    
+def send_form():  
     if request.method == 'POST':
         try:
             cursor = dao.cnx.cursor(buffered=True)
@@ -160,9 +157,10 @@ def aboutus():
 
     nav = make_nav_panel(4)
 
-    u_login = user_log(user_identification)
+    user = user_identification()
 
-    return render_template("aboutus.html", nav=nav, u_login=u_login)
+    return render_template("aboutus.html", nav=nav, user=user)
+
 
 @app.route('/proteins/')
 def proteins():
@@ -176,17 +174,17 @@ def proteins():
         items.append(classes.Product.from_db_row(row))
 
     nav = make_nav_panel("None")
-
-    u_login = user_log(user_identification)
+    user = user_identification()
 
     text = 'У нас вы можете заказать протеины ведущих фирм премиум-качества.'
 
-    return render_template('proteins.html', nav=nav, items=items, text=text, u_login=u_login)
+    return render_template('proteins.html', nav=nav, items=items, text=text, user=user)
+
 
 @app.route('/gainers/')
 def gainers():   
     cursor = dao.cnx.cursor()
-    cursor.execute("SELECT name, about, image FROM product WHERE  category_id=2")
+    cursor.execute("SELECT id, name, about, image FROM product WHERE  category_id=2")
     result = cursor.fetchall()
     cursor.close()
 
@@ -196,16 +194,17 @@ def gainers():
 
     nav = make_nav_panel("None")
 
-    u_login = user_log(user_identification)
+    user = user_identification()
 
     text = 'У нас вы можете заказать гейнеры ведущих фирм премиум-качества.'
 
-    return render_template('gainers.html', nav=nav, items=items, text=text, u_login=u_login)
+    return render_template('gainers.html', nav=nav, items=items, text=text, user=user)
+
 
 @app.route('/aminoacids/')
 def aminoacids():
     cursor = dao.cnx.cursor()
-    cursor.execute("SELECT name, about, image FROM product WHERE  category_id=3")
+    cursor.execute("SELECT id, name, about, image FROM product WHERE  category_id=3")
     result = cursor.fetchall()
     cursor.close()
 
@@ -215,16 +214,17 @@ def aminoacids():
 
     nav = make_nav_panel("None")
 
-    u_login = user_log(user_identification)
+    user = user_identification()
 
     text = 'У нас Вы можете заказать как комплексные, так и отдельные аминокислоты ведущих фирм премиум-качества.'
 
-    return render_template('aminoacids.html', nav=nav, items=items, text=text, u_login=u_login)
+    return render_template('aminoacids.html', nav=nav, items=items, text=text, user=user)
+
 
 @app.route('/creatine/')
 def creatine():
     cursor = dao.cnx.cursor()
-    cursor.execute("SELECT name, about, image FROM product WHERE  category_id=4")
+    cursor.execute("SELECT id, name, about, image FROM product WHERE  category_id=4")
     result = cursor.fetchall()
     cursor.close()
 
@@ -234,16 +234,17 @@ def creatine():
 
     nav = make_nav_panel("None")
 
-    u_login = user_log(user_identification)
+    user = user_identification()
 
     text = 'У нас Вы можете креатин ведущих фирм премиум-качества.'
 
-    return render_template('creatine.html', nav=nav, items=items, text=text, u_login=u_login)
+    return render_template('creatine.html', nav=nav, items=items, text=text, user=user)
+
 
 @app.route('/burnfats/')
 def burnfats():
     cursor = dao.cnx.cursor()
-    cursor.execute("SELECT name, about, image FROM product WHERE  category_id=5")
+    cursor.execute("SELECT id, name, about, image FROM product WHERE  category_id=5")
     result = cursor.fetchall()
     cursor.close()
 
@@ -253,16 +254,17 @@ def burnfats():
 
     nav = make_nav_panel("None")
 
-    u_login = user_log(user_identification)
+    user = user_identification()
 
     text = 'У нас Вы можете заказать жиросжигатели ведущих фирм премиум-качества.'
 
-    return render_template('burnfats.html', nav=nav, items=items, text=text, u_login=u_login)
+    return render_template('burnfats.html', nav=nav, items=items, text=text, user=user)
+
 
 @app.route('/vitamins/')
 def vitamins():
     cursor = dao.cnx.cursor()
-    cursor.execute("SELECT name, about, image FROM product WHERE  category_id=6")
+    cursor.execute("SELECT id, name, about, image FROM product WHERE  category_id=6")
     result = cursor.fetchall()
     cursor.close()
 
@@ -272,16 +274,17 @@ def vitamins():
 
     nav = make_nav_panel("None")
 
-    u_login = user_log(user_identification)
+    user = user_identification()
 
     text = 'У нас Вы можете заказать как комплексные, так и отдельные витамины ведущих фирм премиум-качества.'
 
-    return render_template('vitamins.html', nav=nav, items=items, text=text, u_login=u_login)
+    return render_template('vitamins.html', nav=nav, items=items, text=text, user=user)
+
 
 @app.route('/steroids/')
 def steroids():
     cursor = dao.cnx.cursor()
-    cursor.execute("SELECT name, about, image FROM product WHERE  category_id=7")
+    cursor.execute("SELECT id, name, about, image FROM product WHERE  category_id=7")
     result = cursor.fetchall()
     cursor.close()
 
@@ -291,17 +294,18 @@ def steroids():
 
     nav = make_nav_panel("None")
 
-    u_login = user_log(user_identification)
+    user = user_identification()
 
     text = "У нас Вы можете заказать как комплексные, так и отдельные 'витамины' ведущих фирм премиум-качества."
 
-    return render_template('steroids.html', nav=nav, items=items, text=text, u_login=u_login)
+    return render_template('steroids.html', nav=nav, items=items, text=text, user=user)
+
 
 @app.route('/login/', methods=["GET", "POST"])
 def login():
     nav = make_nav_panel("None")
 
-    u_login = user_log(user_identification)
+    user = user_identification()
 
     if request.method == "POST":
         cursor = dao.cnx.cursor(buffered=True)
@@ -322,7 +326,7 @@ def login():
         else:
             error = "*Данная комбинация логина/пароля введена с ошибкой либо не существует!"
             return render_template("login.html", nav=nav, error=error)            
-    return render_template("login.html", nav=nav, u_login=u_login)
+    return render_template("login.html", nav=nav, user=user)
 
 
 @app.route('/logout/')
@@ -339,15 +343,63 @@ def logout():
     return resp
 
 
-@app.route('/add_to_cart', methods = ['GET', 'POST'])
+# Endpoint, that append items to user's shopping cart.
+@app.route('/add_to_cart', methods = ['POST'])
 def add_to_cart():
-    user = user_identification()
     user_data = request.get_json()
+    user_id = user_data['user_id']
     product_id = user_data['product_id']
     count = user_data['count']
-    user.push(int(count))
 
-    return jsonify(user.__len__())
+    query = 'INSERT INTO shopping_cart (product_id, user_id, count) VALUES (%s, %s, %s)'
+    cursor = dao.cnx.cursor()
+    cursor.execute(query, (product_id, user_id, count, ))
+    dao.cnx.commit()
+
+    user = user_identification()
+
+    return jsonify({ 'user_cart' : user.shopping_cart })
+
+
+# Rendering shopping cart page.
+@app.route('/shopping_cart/')
+def shopping_cart():
+    nav = make_nav_panel('None')
+
+    user = user_identification()
+
+    cursor = dao.cnx.cursor()
+    items = []
+    query = "SELECT id, name, about, image FROM product WHERE id=%s"
+    for position in user.shopping_cart:
+        cursor.execute(query, (position, ))
+        result = cursor.fetchone()
+        items.append(classes.Product.from_db_row(result))
+    cursor.close()
+        
+    return render_template("shopping_cart.html", nav=nav, user=user, items=items)
+
+
+#  Method, that delete position from the user's shopping cart.
+@app.route('/remove_from_cart', methods=['POST'])
+def remove_from_cart():
+    user_data = request.get_json()
+    user_id = user_data['user_id']
+    product_id = user_data['product_id']
+    count = user_data['count']
+
+    query = "DELETE FROM shopping_cart WHERE user_id = %s AND product_id = %s LIMIT 1"
+    cursor = dao.cnx.cursor()
+    cursor.execute(query, (user_id, product_id, ))
+    dao.cnx.commit()
+    cursor.close()
+
+    user = user_identification()
+
+    return jsonify({'user_cart' : user.shopping_cart })
+
+
+
 
 
 

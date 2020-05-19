@@ -13,16 +13,16 @@
     <body>
         <div class="main">
             <header>
-                {% if u_login == None or error %}
+                {% if user == 'User undefined!' %}
                     <div class="login-href">
-                        <a href= {{ url_for('registration') }}>Зарегистрироваться</a>&nbsp&nbsp&nbsp
-                        <a href= {{ url_for('login') }}>Войти</a>
+                        <a class="login-elem" href= {{ url_for('registration') }}>Зарегистрироваться</a>
+                        <a class="login-elem" href= {{ url_for('login') }}>Войти</a>
                     </div>              
                 {% else %}
                     <div class="login-href">
-                        <a href="/shopping_cart/">Корзина<!--<img src="/static/imgs/backet.png" alt="backet" style="height: 14px; width: 14px;">--></a>&nbsp&nbsp&nbsp
-                        <a href="#">{{ u_login }}</a>&nbsp&nbsp&nbsp
-                        <a href="/logout/">Выйти</a>
+                        <a class="shopping-cart" href="/shopping_cart/">Корзина<div class="cart-counter" id="cart_counter">{{ user.__len__() }}</div></a>                     
+                        <a class="login-elem" href="#">{{ user.login }}</a>
+                        <a class="login-elem" href="/logout/">Выйти</a>
                     </div>
                 {% endif %}
                 <a href="/" alt="Домашняя страница"><h2>Добро пожаловать в интернет-магазин спортивного питания и фармакологии "trauma"!!!</h2></a>
@@ -31,13 +31,8 @@
                 <nav>
                     <ul class="menu">
                         {% for i in range(nav|length) %}                                    
-                            <li {% if i == nav.highlight %} style="font-weight: bolder;" {% endif %}><a href="{{nav.nav_items[i].link}}">{{nav.nav_items[i].name}}</a></li>
+                            <li {% if i == nav.highlight %} style="font-weight: bolder;" {% endif %}><a href="{{ nav.nav_items[i].link }}">{{ nav.nav_items[i].name }}</a></li>
                         {% endfor %}
-                        <!--
-                        {% if u_login %}
-                            <a href="/backet/">Корзина</a>
-                        {% endif %}
-                        -->
                     </ul>
                 </nav>
 
