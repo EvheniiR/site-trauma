@@ -1,4 +1,4 @@
-/venv
-/mysite/__pycache__
-/__pycache__
+venv/
+mysite/__pycache__/
+__pycache__/
 backup.sql
