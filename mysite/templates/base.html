@@ -20,7 +20,8 @@
                     </div>              
                 {% else %}
                     <div class="login-href">
-                        <a class="shopping-cart" href="/shopping_cart/">Корзина<div class="cart-counter" id="cart_counter">{{ user.__len__() }}</div></a>                     
+                        <a class="shopping-cart" href="/shopping_cart/">Корзина<div class="cart-counter" id="cart_counter">
+                        {{ user.shopping_cart|length }}</div></a>                     
                         <a class="login-elem" href="#">{{ user.login }}</a>
                         <a class="login-elem" href="/logout/">Выйти</a>
                     </div>

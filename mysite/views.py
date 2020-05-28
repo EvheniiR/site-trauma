@@ -29,12 +29,12 @@ def user_identification():
         res = cursor.fetchone()
         user = classes.User(res[0], res[1])
 
-        query = 'SELECT product_id FROM shopping_cart WHERE user_id = %s'
+        query = 'SELECT product_id, count FROM shopping_cart WHERE user_id = %s'
         cursor.execute(query, (user.user_id, ))
         result = cursor.fetchall()
         if result != None:
             for i in range(len(result)):
-                user.push(result[i][0])
+                user.push(result[i][0], result[i][1])
         cursor.close()
         return user
     return 'User undefined!'
@@ -351,14 +351,15 @@ def add_to_cart():
     product_id = user_data['product_id']
     count = user_data['count']
 
-    query = 'INSERT INTO shopping_cart (product_id, user_id, count) VALUES (%s, %s, %s)'
+    query = '''INSERT INTO shopping_cart (product_id, user_id, count) VALUES (%s, %s, %s) 
+    ON DUPLICATE KEY UPDATE count=count + %s'''
     cursor = dao.cnx.cursor()
-    cursor.execute(query, (product_id, user_id, count, ))
+    cursor.execute(query, (product_id, user_id, count, count, ))
     dao.cnx.commit()
 
     user = user_identification()
 
-    return jsonify({ 'user_cart' : user.shopping_cart })
+    return jsonify({ 'users_shopping_cart' : user.shopping_cart})
 
 
 # Rendering shopping cart page.
@@ -386,9 +387,8 @@ def remove_from_cart():
     user_data = request.get_json()
     user_id = user_data['user_id']
     product_id = user_data['product_id']
-    count = user_data['count']
 
-    query = "DELETE FROM shopping_cart WHERE user_id = %s AND product_id = %s LIMIT 1"
+    query = "DELETE FROM shopping_cart WHERE user_id = %s AND product_id = %s"
     cursor = dao.cnx.cursor()
     cursor.execute(query, (user_id, product_id, ))
     dao.cnx.commit()

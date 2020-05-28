@@ -2,18 +2,10 @@
 
 
 {% block content %}
-    <content><h3>{{text}}</h3><br>
+    <content>
+        <h3>{{text}}</h3><br>
         <div class="my-flex-container">
-            {% for item in items %}
-                <div class="item">
-                    <img src="{{ item.image }}" alt="{{ item.name }}"><p>{{ item.link }}</p><br>
-                    <div class="price-action">
-                        <!--<div class="price-elem">price</div>
-                        <div class="price-elem">count</div>-->
-                        <button class="btn-buy" id="send_data_{{ item.product_id }}" onclick="addToCart({{ user.user_id }}, {{ item.product_id }}, 1)">Купить!</button>
-                    </div>                          
-                </div>
-            {% endfor %}
+            {% include 'items.html' %}
         </div>
     </content>
 {% endblock %}

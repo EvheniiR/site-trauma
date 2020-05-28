@@ -12,7 +12,7 @@
                     <div class="price-action">
                         <!--<div class="price-elem">price</div>
                         <div class="price-elem">count</div>-->
-                        <button class="btn-buy" id="remove_position_{{ item.product_id }}" onclick="removeFromCart({{ user.user_id }}, {{ item.product_id }}, 1)">Удалить!</button>
+                        <button class="btn-rm" id="remove_position_{{ item.product_id }}" onclick="removeFromCart({{ user.user_id }}, {{ item.product_id }})">Удалить!</button>
                     </div>                          
                 </div>
             {% endfor %}

@@ -1,4 +1,4 @@
-$(function() {
+(function() {
     $(window).scroll(function() {
         if ($(this).scrollTop() != 0) {
             $('#toTop').fadeIn();
@@ -15,7 +15,9 @@ $(function() {
 });
 
 
-function addToCart(user_id, product_id, count) {
+function addToCart(user_id, product_id) {
+    var counter_id = '#item_counter_' + product_id.toString();
+    var count = $(counter_id).val();   
     data = {
         user_id : user_id,
         product_id : product_id,
@@ -31,11 +33,10 @@ function addToCart(user_id, product_id, count) {
 };
 
 
-function removeFromCart(user_id, product_id, count) {
+function removeFromCart(user_id, product_id) {
     data = {
         user_id : user_id,
-        product_id : product_id,
-        count : count
+        product_id : product_id
     };
     $.ajax({
         type : 'POST',
@@ -45,6 +46,30 @@ function removeFromCart(user_id, product_id, count) {
         dataType: 'json'
     });
 };
+
+
+function refreshCartCounter(users_shopping_cart) {
+    var count = shoppingCart.length;
+    $('#cart_counter').val(count);
+};
+
+
+$(document).ready(function() {
+    $('.minus').click(function () {
+        var $input = $(this).parent().find('input');
+        var count = parseInt($input.val()) - 1;
+        count = count < 1 ? 1 : count;
+        $input.val(count);
+        $input.change();
+        return false;
+    });
+    $('.plus').click(function () {
+        var $input = $(this).parent().find('input');
+        $input.val(parseInt($input.val()) + 1);
+        $input.change();
+        return false;
+    });
+});
 
 
 

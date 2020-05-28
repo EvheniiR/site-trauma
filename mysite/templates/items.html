@@ -1,0 +1,13 @@
+{% for item in items %}
+    <div class="item">
+        <img src="{{ item.image }}" alt="{{ item.name }}"><p>{{ item.link }}</p><br>
+        <div class="price-action">
+            <!--<div class="price-elem">price</div>-->
+            <div class="number">
+                <span class="minus">-</span><input type="text" value="1" id="item_counter_{{ item.product_id }}"><span class="plus">+</span>
+            </div>
+            <button class="btn-buy" id="send_data_{{ item.product_id }}" onclick="addToCart({{ user.user_id }}, 
+            {{ item.product_id }})">Купить!</button>
+        </div>                          
+    </div>
+{% endfor %}
