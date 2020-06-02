@@ -2,13 +2,12 @@
 
 
 {% block content %}
-	<content><h3>{{text}}</h3><br>
+	<content>
+		<h3>{{text}}</h3><br>
         <div class="my-flex-container">
-            {% for item in items %}
-                <div class="item">
-                    <img src="{{item.image}}" alt="{{item.name}}"><p>{{item.link}}</p>                       
-                </div>
-            {% endfor %}
+
+            {% include 'items.html' %}
+
         </div>
     </content>
 {% endblock %}

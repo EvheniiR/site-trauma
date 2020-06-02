@@ -1,4 +1,5 @@
 {% for item in items %}
+
     <div class="item">
         <img src="{{ item.image }}" alt="{{ item.name }}"><p>{{ item.link }}</p><br>
         <div class="price-action">
@@ -10,4 +11,5 @@
             {{ item.product_id }})">Купить!</button>
         </div>                          
     </div>
+    
 {% endfor %}

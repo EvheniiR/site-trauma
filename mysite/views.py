@@ -359,7 +359,7 @@ def add_to_cart():
 
     user = user_identification()
 
-    return jsonify({ 'users_shopping_cart' : user.shopping_cart})
+    return jsonify({ 'users_shopping_cart' : user.shopping_cart })
 
 
 # Rendering shopping cart page.

@@ -2,11 +2,14 @@
 
 
 {% block content %}
-    <content><h3>{{text}}</h3><br>
+    <content>
+    	<h3>{{ text }}</h3><br>
         <div class="my-flex-container">
-            {% for item in items %}
-                <div class="my-block2"><img src="{{item.image}}" alt="{{item.name}}"><br>{{item.name}}</div>           
-            {% endfor %}
+			{% for item in items %}
+			    <div>
+			        <img src="{{ item.image }}" alt="{{ item.name }}"><p>{{ item.name }}</p>                          
+			    </div>			    
+			{% endfor %}            
         </div>
     </content>
 {% endblock %}

@@ -1,4 +1,22 @@
-(function() {
+$(document).ready(function() {
+    $('.minus').click(function () {
+        var $input = $(this).parent().find('input');
+        var count = parseInt($input.val()) - 1;
+        count = count < 1 ? 1 : count;
+        $input.val(count);
+        $input.change();
+        return false;
+    });
+    $('.plus').click(function () {
+        var $input = $(this).parent().find('input');
+        $input.val(parseInt($input.val()) + 1);
+        $input.change();
+        return false;
+    });
+});
+
+
+$(document).ready(function() {
     $(window).scroll(function() {
         if ($(this).scrollTop() != 0) {
             $('#toTop').fadeIn();
@@ -33,7 +51,7 @@ function addToCart(user_id, product_id) {
 };
 
 
-function removeFromCart(user_id, product_id) {
+function removeFromCart(user_id, product_id, positions_count) {
     data = {
         user_id : user_id,
         product_id : product_id
@@ -44,6 +62,12 @@ function removeFromCart(user_id, product_id) {
         data : JSON.stringify(data),
         contentType: 'application/json; charset=utf-8',
         dataType: 'json'
+    }).done(function() {
+        var position_id = '#position_' + product_id.toString();
+        $(position_id).remove();
+        if (positions_count == 1) {
+            location.reload();
+        };
     });
 };
 
@@ -53,23 +77,6 @@ function refreshCartCounter(users_shopping_cart) {
     $('#cart_counter').val(count);
 };
 
-
-$(document).ready(function() {
-    $('.minus').click(function () {
-        var $input = $(this).parent().find('input');
-        var count = parseInt($input.val()) - 1;
-        count = count < 1 ? 1 : count;
-        $input.val(count);
-        $input.change();
-        return false;
-    });
-    $('.plus').click(function () {
-        var $input = $(this).parent().find('input');
-        $input.val(parseInt($input.val()) + 1);
-        $input.change();
-        return false;
-    });
-});
 
 
 

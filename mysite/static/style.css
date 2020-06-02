@@ -15,6 +15,7 @@ body {
 .main {
     height: 100%;
     width: 55%;
+    min-width: 800px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -123,7 +124,8 @@ footer {
 }
 
 .item {
-    margin: 5px;
+    width: 500px;
+    margin: 10px;
     padding: 5px;
     border: 1px solid black;
     box-shadow: 2px 2px 5px rgba(0,0,0,0.85);
@@ -267,8 +269,7 @@ button {
 .btn-rm {
     font: 16px garamond;
     width:  70px;
-    height: 22px;
-    margin: 0 10px; 
+    height: 22px; 
     padding: 3px;
     border-radius: 4px;
     border: 1px solid black;
@@ -307,6 +308,18 @@ button {
     border-radius: 4px;
     vertical-align: middle;
 }
+
+.action-del {
+    margin: 0px;
+    font: 16px garamond;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    color: black;
+    padding: 5px;
+    text-align: center;
+}
+
 
 #toTop {
     width:35px;

@@ -3,19 +3,27 @@
 
 {% block content %}
     <content>
-        <h3>Товары в корзине, {{ user.login }}.</h3><br>
-        <p>Для заказа данных товаров жмите "Оформить заказ!" и наш менеджер свяжется с Вами!</p>
-        <div class="my-flex-container">
-            {% for item in items %}
-                <div class="item">
-                    <img src="{{ item.image }}" alt="{{ item.name }}"><p>{{ item.link }}</p><br>
-                    <div class="price-action">
-                        <!--<div class="price-elem">price</div>
-                        <div class="price-elem">count</div>-->
-                        <button class="btn-rm" id="remove_position_{{ item.product_id }}" onclick="removeFromCart({{ user.user_id }}, {{ item.product_id }})">Удалить!</button>
-                    </div>                          
-                </div>
-            {% endfor %}
-        </div>
-    </content>  
+        {% if user.shopping_cart|length == 0 %}
+            <h3>Ваша корзина, к сожалению, пуста!</h3>
+            <a href="/">
+                <button>Вернуться к покупкам!</button>
+            </a>
+        {% else %}
+            <h3>Товары в корзине, {{ user.login }}.</h3><br>
+            <span>Для заказа данных товаров жмите "Оформить заказ!" и наш менеджер свяжется с Вами!</span>
+            <div class="my-flex-container">
+                {% for item in items %}
+                    <div class="item" id="position_{{ item.product_id }}">
+                        <img src="{{ item.image }}" alt="{{ item.name }}"><p>{{ item.name }} X {{ user.shopping_cart[item.product_id] }} = total_price грн.</p><br>
+                        <div class="action-del">
+                            <!--<div class="price-elem">price</div>-->
+                            <button class="btn-rm" onclick="removeFromCart({{ user.user_id }}, {{ item.product_id }},
+                            {{ user.shopping_cart|length }})">Удалить!</button>
+                        </div>                          
+                    </div>
+                {% endfor %}
+            </div>
+            <button>Подтвердить заказ</button>
+        {% endif %}
+    </content> 
 {% endblock %}
