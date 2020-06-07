@@ -125,7 +125,7 @@ footer {
 
 .item {
     width: 500px;
-    margin: 10px;
+    margin: 5px;
     padding: 5px;
     border: 1px solid black;
     box-shadow: 2px 2px 5px rgba(0,0,0,0.85);
@@ -181,6 +181,7 @@ input:focus {
 }
 
 button {
+    border-radius: 4px;
     margin-top: 10px;
     cursor: pointer;
     padding: 5px 15px;
@@ -267,6 +268,7 @@ button {
 }
 
 .btn-rm {
+    margin: 0;
     font: 16px garamond;
     width:  70px;
     height: 22px; 
@@ -310,13 +312,12 @@ button {
 }
 
 .action-del {
-    margin: 0px;
     font: 16px garamond;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    padding: 5px 10px;
     color: black;
-    padding: 5px;
     text-align: center;
 }
 

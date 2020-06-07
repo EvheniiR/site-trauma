@@ -3,27 +3,37 @@
 
 {% block content %}
     <content>
-        {% if user.shopping_cart|length == 0 %}
-            <h3>Ваша корзина, к сожалению, пуста!</h3>
-            <a href="/">
-                <button>Вернуться к покупкам!</button>
-            </a>
-        {% else %}
-            <h3>Товары в корзине, {{ user.login }}.</h3><br>
-            <span>Для заказа данных товаров жмите "Оформить заказ!" и наш менеджер свяжется с Вами!</span>
-            <div class="my-flex-container">
-                {% for item in items %}
-                    <div class="item" id="position_{{ item.product_id }}">
-                        <img src="{{ item.image }}" alt="{{ item.name }}"><p>{{ item.name }} X {{ user.shopping_cart[item.product_id] }} = total_price грн.</p><br>
-                        <div class="action-del">
-                            <!--<div class="price-elem">price</div>-->
-                            <button class="btn-rm" onclick="removeFromCart({{ user.user_id }}, {{ item.product_id }},
-                            {{ user.shopping_cart|length }})">Удалить!</button>
-                        </div>                          
+        <div class="shopping-cart-content">
+            {% if user.shopping_cart|length == 0 %}
+                <div class="empty_cart">
+                    <h3>Ваша корзина, к сожалению, пуста!</h3>
+                    <a href="/">
+                        <button>Вернуться к покупкам!</button>
+                    </a>
+                </div>
+            {% else %}
+                <div class="full_cart">
+                    <h3>Товары в корзине, {{ user.login }}.</h3><br>
+                    <span>Для заказа данных товаров жмите "Оформить заказ!" и наш менеджер свяжется с Вами!</span>
+                    <div class="my-flex-container">
+                        {% for item in items %}
+                            <div class="item" id="position_{{ item.product_id }}">
+                                <img src="{{ item.image }}" alt="{{ item.name }}"><p>{{ item.name }} X {{ user.shopping_cart[item.product_id] }} = total_price грн.</p><br><br>
+                                <div class="action-del">
+                                    <!--<div class="price-elem">price</div>-->
+                                    <button class="btn-rm" onclick="removeFromCart({{ user.user_id }}, {{ item.product_id }}
+                                    )">Удалить!</button>
+                                </div>                          
+                            </div>
+                        {% endfor %}
+                        <div>Итого к оплате: ХХХ грн.</div>
                     </div>
-                {% endfor %}
-            </div>
-            <button>Подтвердить заказ</button>
-        {% endif %}
+                    <button>Подтвердить заказ</button>           
+                    <a href="/">
+                        <button>Вернуться к покупкам</button>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
     </content> 
 {% endblock %}

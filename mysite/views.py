@@ -154,8 +154,7 @@ def send_form():
 
 @app.route('/aboutus/')
 def aboutus():
-
-    nav = make_nav_panel(4)
+    nav = make_nav_panel(3)
 
     user = user_identification()
 
@@ -362,7 +361,7 @@ def add_to_cart():
     return jsonify({ 'users_shopping_cart' : user.shopping_cart })
 
 
-# Rendering shopping cart page.
+#  Rendering shopping cart page.
 @app.route('/shopping_cart/')
 def shopping_cart():
     nav = make_nav_panel('None')
@@ -396,7 +395,7 @@ def remove_from_cart():
 
     user = user_identification()
 
-    return jsonify({'user_cart' : user.shopping_cart })
+    return jsonify({ 'user_cart' : user.shopping_cart })
 
 
 

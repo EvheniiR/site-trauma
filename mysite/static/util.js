@@ -51,7 +51,7 @@ function addToCart(user_id, product_id) {
 };
 
 
-function removeFromCart(user_id, product_id, positions_count) {
+function removeFromCart(user_id, product_id, positions_amount) {
     data = {
         user_id : user_id,
         product_id : product_id
@@ -62,12 +62,21 @@ function removeFromCart(user_id, product_id, positions_count) {
         data : JSON.stringify(data),
         contentType: 'application/json; charset=utf-8',
         dataType: 'json'
-    }).done(function() {
+    }).done(function(data) {
         var position_id = '#position_' + product_id.toString();
         $(position_id).remove();
-        if (positions_count == 1) {
-            location.reload();
-        };
+        var s_cart =  data["user_cart"];
+        if (Object.keys(s_cart).length == 0) {
+            $('.full_cart').remove();
+            var s_cart_is_empty = 
+            "<div class='empty_cart'>" +
+                "<h3>Ваша корзина, к сожалению, пуста!</h3>" +
+                "<a href='/'>" +
+                    "<button>Вернуться к покупкам!</button>" +
+                "</a>" +
+            "</div>";
+            $('.shopping-cart-content').append(s_cart_is_empty);
+    };
     });
 };
 
