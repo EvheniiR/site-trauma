@@ -395,7 +395,7 @@ def remove_from_cart():
 
     user = user_identification()
 
-    return jsonify({ 'user_cart' : user.shopping_cart })
+    return jsonify({ 'users_shopping_cart' : user.shopping_cart })
 
 
 

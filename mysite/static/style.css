@@ -333,7 +333,7 @@ button {
     position: fixed;
     bottom: 10px; /* отступ кнопки от нижнего края страницы*/
     right: 250px;
-    cursor: pointer;
+    cursor: n-resize;
     display: none;
     color: black;
     font-weight: bold;

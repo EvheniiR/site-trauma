@@ -65,7 +65,7 @@ function removeFromCart(user_id, product_id, positions_amount) {
     }).done(function(data) {
         var position_id = '#position_' + product_id.toString();
         $(position_id).remove();
-        var s_cart =  data["user_cart"];
+        var s_cart =  data["users_shopping_cart"];
         if (Object.keys(s_cart).length == 0) {
             $('.full_cart').remove();
             var s_cart_is_empty = 
@@ -76,14 +76,15 @@ function removeFromCart(user_id, product_id, positions_amount) {
                 "</a>" +
             "</div>";
             $('.shopping-cart-content').append(s_cart_is_empty);
-    };
+        };
+        refreshCartCounter(data);
     });
 };
 
 
-function refreshCartCounter(users_shopping_cart) {
-    var count = shoppingCart.length;
-    $('#cart_counter').val(count);
+function refreshCartCounter(data) {
+    var users_shopping_cart_length = data["users_shopping_cart"].length; 
+    $('#cart_counter').val(users_shopping_cart_length);
 };
 
 
