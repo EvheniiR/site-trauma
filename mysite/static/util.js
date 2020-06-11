@@ -93,3 +93,5 @@ function removeFromCart(user_id, product_id, positions_amount) {
 
 
 
+
+

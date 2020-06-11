@@ -3,7 +3,7 @@
     <div class="item">
         <img src="{{ item.image }}" alt="{{ item.name }}"><p>{{ item.link }}</p><br>
         <div class="price-action">
-            <!--<div class="price-elem">price</div>-->
+            <div class="price-elem">{{ item.cost }} ₴/шт.</div>
             <div class="number">
                 <span class="minus">-</span><input type="text" value="1" id="item_counter_{{ item.product_id }}"><span class="plus">+</span>
             </div>

@@ -20,7 +20,7 @@
                             <div class="item" id="position_{{ item.product_id }}">
                                 <img src="{{ item.image }}" alt="{{ item.name }}"><p>{{ item.name }} X {{ user.shopping_cart[item.product_id] }} = total_price грн.</p><br><br>
                                 <div class="action-del">
-                                    <!--<div class="price-elem">price</div>-->
+                                    <div class="price-elem">{{ item.cost }} ₴/шт.</div>
                                     <button class="btn-rm" onclick="removeFromCart({{ user.user_id }}, {{ item.product_id }}
                                     )">Удалить!</button>
                                 </div>                          
@@ -36,4 +36,9 @@
             {% endif %}
         </div>
     </content> 
+{% endblock %}
+
+
+{% block scripts %}
+    <script type="text/javascript" src="/static/shopping_cart.js"></script>
 {% endblock %}

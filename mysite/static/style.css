@@ -231,6 +231,8 @@ button {
 
 .price-elem {
     margin: 0 10px;
+    padding: 3px;
+    color: #F2F4F4;
 }
 
 .shopping-cart {

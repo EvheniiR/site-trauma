@@ -61,7 +61,7 @@ def index():
 @app.route('/productlist/')
 def productlist():
     cursor = dao.cnx.cursor()
-    cursor.execute("SELECT id, name, about, image FROM product")
+    cursor.execute("SELECT id, name, about, image, cost FROM product")
     result = cursor.fetchall()
     cursor.close()
    
@@ -109,7 +109,9 @@ def registration():
 
 
 @app.route('/send_form', methods=['GET', 'POST'])
-def send_form():  
+def send_form():
+    nav = make_nav_panel(None)
+    user = user_identification() 
     if request.method == 'POST':
         try:
             cursor = dao.cnx.cursor(buffered=True)
@@ -132,22 +134,23 @@ def send_form():
                 dao.cnx.commit()
                 resp = make_response(redirect('/'))
                 resp.set_cookie('token', '%s' % token, max_age=43200)
+                user = user_identification()
             elif res1 != None and res2 != None:
                 error = "Этот логин и e-mail уже заняты!"
                 dao.cnx.rollback()
-                return render_template('registration.html', error=error,nav=nav)
+                return render_template('registration.html', error=error,nav=nav, user=user)
             elif res1 != None:
                 error = "Этот логин уже занят!"
                 dao.cnx.rollback()
-                return render_template('registration.html', error=error,nav=nav)
+                return render_template('registration.html', error=error,nav=nav, user=user)
             else:
                 error = "Этот e-mail уже занят!"
                 dao.cnx.rollback()
-                return render_template('registration.html', error=error,nav=nav)               
+                return render_template('registration.html', error=error,nav=nav, user=user)               
         except:
             error = "Ошибка при регистрации аккаунта! Попробуйте еще раз!"
             dao.cnx.rollback()
-            return render_template('registration.html', error=error,nav=nav)
+            return render_template('registration.html', error=error,nav=nav, user=user)
         cursor.close()
     return resp
 
@@ -164,7 +167,7 @@ def aboutus():
 @app.route('/proteins/')
 def proteins():
     cursor = dao.cnx.cursor()
-    cursor.execute("SELECT id, name, about, image FROM product WHERE  category_id=1")
+    cursor.execute("SELECT id, name, about, image, cost FROM product WHERE  category_id=1")
     result = cursor.fetchall()
     cursor.close()
 
@@ -183,7 +186,7 @@ def proteins():
 @app.route('/gainers/')
 def gainers():   
     cursor = dao.cnx.cursor()
-    cursor.execute("SELECT id, name, about, image FROM product WHERE  category_id=2")
+    cursor.execute("SELECT id, name, about, image, cost FROM product WHERE  category_id=2")
     result = cursor.fetchall()
     cursor.close()
 
@@ -203,7 +206,7 @@ def gainers():
 @app.route('/aminoacids/')
 def aminoacids():
     cursor = dao.cnx.cursor()
-    cursor.execute("SELECT id, name, about, image FROM product WHERE  category_id=3")
+    cursor.execute("SELECT id, name, about, image, cost FROM product WHERE  category_id=3")
     result = cursor.fetchall()
     cursor.close()
 
@@ -223,7 +226,7 @@ def aminoacids():
 @app.route('/creatine/')
 def creatine():
     cursor = dao.cnx.cursor()
-    cursor.execute("SELECT id, name, about, image FROM product WHERE  category_id=4")
+    cursor.execute("SELECT id, name, about, image, cost FROM product WHERE  category_id=4")
     result = cursor.fetchall()
     cursor.close()
 
@@ -243,7 +246,7 @@ def creatine():
 @app.route('/burnfats/')
 def burnfats():
     cursor = dao.cnx.cursor()
-    cursor.execute("SELECT id, name, about, image FROM product WHERE  category_id=5")
+    cursor.execute("SELECT id, name, about, image, cost FROM product WHERE  category_id=5")
     result = cursor.fetchall()
     cursor.close()
 
@@ -263,7 +266,7 @@ def burnfats():
 @app.route('/vitamins/')
 def vitamins():
     cursor = dao.cnx.cursor()
-    cursor.execute("SELECT id, name, about, image FROM product WHERE  category_id=6")
+    cursor.execute("SELECT id, name, about, image, cost FROM product WHERE  category_id=6")
     result = cursor.fetchall()
     cursor.close()
 
@@ -283,7 +286,7 @@ def vitamins():
 @app.route('/steroids/')
 def steroids():
     cursor = dao.cnx.cursor()
-    cursor.execute("SELECT id, name, about, image FROM product WHERE  category_id=7")
+    cursor.execute("SELECT id, name, about, image, cost FROM product WHERE  category_id=7")
     result = cursor.fetchall()
     cursor.close()
 
@@ -370,7 +373,7 @@ def shopping_cart():
 
     cursor = dao.cnx.cursor()
     items = []
-    query = "SELECT id, name, about, image FROM product WHERE id=%s"
+    query = "SELECT id, name, about, image, cost FROM product WHERE id=%s"
     for position in user.shopping_cart:
         cursor.execute(query, (position, ))
         result = cursor.fetchone()

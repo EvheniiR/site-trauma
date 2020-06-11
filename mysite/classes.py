@@ -1,14 +1,15 @@
 class Product(object):
     """info about name of pruduct, link and image"""
-    def __init__(self, product_id, name, link, image):
+    def __init__(self, product_id, name, link, image, cost):
         self.product_id = product_id
         self.name = name
         self.link = link
         self.image = image
+        self.cost = cost
 
     @staticmethod
     def from_db_row(cell_list):
-        return Product(product_id=cell_list[0], name=cell_list[1], link=cell_list[2], image=cell_list[3])
+        return Product(product_id=cell_list[0], name=cell_list[1], link=cell_list[2], image=cell_list[3], cost=cell_list[4])
 
 
 class Category(object):
