@@ -52,8 +52,7 @@ def index():
         categories.append(classes.Category.from_db_row(row))
  
     nav = make_nav_panel(0)
-    user = user_identification()
-    #u_login = user_log(user_identification)    
+    user = user_identification()    
    
     return render_template('index.html', categories=categories, nav=nav, user=user)
 
