@@ -92,7 +92,8 @@ def certificates():
 
     user = user_identification()
 
-    text = "В подтвержение качества и подлинности нашей продукции для Вас мы разместили сертифкаты и свидетельства о госрегистрации."
+    text = '''В подтвержение качества и подлинности нашей продукции для Вас 
+              мы разместили сертифкаты и свидетельства о госрегистрации.'''
 
     return render_template("certificates.html", items=items, nav=nav, text=text, user=user)
 
@@ -116,7 +117,9 @@ def send_form():
             cursor = dao.cnx.cursor(buffered=True)
             query_login = "SELECT 1 FROM user WHERE login = %s"
             query_email = "SELECT 1 FROM user WHERE email = %s"        
-            sql = "INSERT INTO user (login, name, surname, email, mobilenumber, dob, town, password, token) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            sql = '''INSERT INTO user (login, name, surname, email, 
+                                       mobilenumber, dob, town, password, token) 
+                     VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s)'''
             cursor.execute(query_login, (request.form['user_login'],))
             res1 = cursor.fetchone()
             cursor.execute(query_email, (request.form['user_email'],))
@@ -125,15 +128,19 @@ def send_form():
                 user_pass_hash = util.do_password_hash(request.form['user_pass'])
                 token = util.random_string()
                 user_info = (
-                request.form['user_login'], request.form['user_name'], request.form['user_surname'], 
-                request.form['user_email'], request.form['user_mobilenumber'], request.form['user_dob'], 
-                request.form['user_town'], user_pass_hash, token, 
+                request.form['user_login'], 
+                request.form['user_name'], 
+                request.form['user_surname'], 
+                request.form['user_email'], 
+                request.form['user_mobilenumber'], 
+                request.form['user_dob'], 
+                request.form['user_town'], 
+                user_pass_hash, 
+                token, 
                 )
                 cursor.execute(sql, user_info)                
-                dao.cnx.commit()
                 resp = make_response(redirect('/'))
                 resp.set_cookie('token', '%s' % token, max_age=43200)
-                user = user_identification()
             elif res1 != None and res2 != None:
                 error = "Этот логин и e-mail уже заняты!"
                 dao.cnx.rollback()
@@ -146,10 +153,12 @@ def send_form():
                 error = "Этот e-mail уже занят!"
                 dao.cnx.rollback()
                 return render_template('registration.html', error=error,nav=nav, user=user)               
-        except:
-            error = "Ошибка при регистрации аккаунта! Попробуйте еще раз!"
+        except mysql.connector.Error:
+            error = '''Ошибка при регистрации аккаунта! 
+                       Что-то пошло не так... Попробуйте еще раз!'''
             dao.cnx.rollback()
             return render_template('registration.html', error=error,nav=nav, user=user)
+        dao.cnx.commit()
         cursor.close()
     return resp
 
@@ -217,7 +226,8 @@ def aminoacids():
 
     user = user_identification()
 
-    text = 'У нас Вы можете заказать как комплексные, так и отдельные аминокислоты ведущих фирм премиум-качества.'
+    text = '''У нас Вы можете заказать как комплексные, 
+            так и отдельные аминокислоты ведущих фирм премиум-качества.'''
 
     return render_template('aminoacids.html', nav=nav, items=items, text=text, user=user)
 
