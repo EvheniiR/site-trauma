@@ -1,4 +1,5 @@
 venv/
 mysite/__pycache__/
+mysite/*.pyc
 __pycache__/
 dump_shop_db.sql
