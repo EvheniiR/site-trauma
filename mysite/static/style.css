@@ -188,6 +188,14 @@ button {
     box-shadow: 2px 2px 5px rgba(0,0,0,0.85);
 }
 
+button:focus {
+    outline: none;
+}
+
+button:active {
+    background-color: gray;
+}
+
 .msg_visible {
     color: red;
     margin: 5px;

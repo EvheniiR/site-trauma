@@ -18,7 +18,7 @@
                     <div class="my-flex-container">
                         {% for item in items %}
                             <div class="item" id="position_{{ item.product_id }}">
-                                <img src="{{ item.image }}" alt="{{ item.name }}"><p>{{ item.name }} X {{ user.shopping_cart[item.product_id] }} = total_price грн.</p><br><br>
+                                <img src="{{ item.image }}" alt="{{ item.name }}"><p>{{ item.name }} {{ "&times;" | safe }} {{ user.shopping_cart[item.product_id] }} = total_price грн.</p><br><br>
                                 <div class="action-del">
                                     <div class="price-elem">{{ item.cost }} ₴/шт.</div>
                                     <button class="btn-rm" onclick="removeFromCart({{ user.user_id }}, {{ item.product_id }}
